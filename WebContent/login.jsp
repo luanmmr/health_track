@@ -11,7 +11,7 @@
   <meta name="author" content="Luan Ribeiro">
   <meta name="description" content="">
   <meta name="keywords" content="">
-	<%@ include file="includes/bootstrap-style.jsp" %>
+	<%@ include file="includes/dashboard-style.jsp" %>
 	<link href="resources/css/custom/login.css" rel="stylesheet">
 	
 	</head>
@@ -33,14 +33,20 @@
 	                   Acesse sua conta
 	                 </c:if>
 	                 <c:if test="${ not empty msgSucesso }">
-	                   <div class="alert alert-success" role="alert">
-                       ${ msgSucesso }
-                     </div>
+	                   <a class="btn btn-success btn-icon-split">
+                       <span class="icon text-white-50">
+                           <i class="fas fa-check"></i>
+                       </span>
+                       <span class="text">${ msgSucesso }</span>
+                     </a>
 	                 </c:if>
 	                 <c:if test="${ not empty msgErro }">
-	                   <div class="alert alert-danger" role="alert">
-                       ${ msgErro }
-                     </div>
+	                   <a class="btn btn-danger btn-icon-split">
+                       <span class="icon text-white-50">
+                           <i class="fas fa-exclamation-triangle"></i>
+                       </span>
+                       <span class="text">${ msgErro }</span>
+                     </a>
 	                 </c:if>
 	              </p>
 	              <form action="login" method="post">
@@ -54,8 +60,8 @@
 	                </div>
 	                <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Entrar" >
 	              </form>
-	              <a href="#" class="forgot-password-link">Esqueceu a senha?</a>
-	              <p class="login-card-footer-text">Não tem uma conta? <a href="signup.jsp" class="text-reset">Cadastra-se aqui!</a></p>
+	              <a href="#" class="small">Esqueceu a senha?</a>
+	              <p>Não tem uma conta? <a href="signup.jsp" >Cadastra-se aqui!</a></p>
 	            </div>
 	          </div>
 	        </div>

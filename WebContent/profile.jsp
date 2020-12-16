@@ -42,12 +42,15 @@
                      </a>
                    </c:if>
                    <c:if test="${ not empty msgErro }">
-                     <div class="alert alert-danger" role="alert">
-                       ${ msgErro }
-                     </div>
+                     <a class="btn btn-warning btn-icon-split">
+                       <span class="icon text-white-50">
+                           <i class="fas fa-exclamation-triangle"></i>
+                       </span>
+                       <span class="text">${ msgErro }</span>
+                     </a>
                    </c:if>
                    
-                  <form action="user" method="post" style="margin-top: 30px;">
+                  <form action="user" method="post" style="margin-top: 20px;">
                   <input type="hidden" name="action" value="atualizar">
                 
                    <div class="form-row">
@@ -89,7 +92,7 @@
                        
                         
                      <div class="form-row">
-                       <div class="form-group col-md-4" style="margin-top: 15px;">
+                       <div class="form-group col-md-4" style="margin-top: 6px;">
                          <input class="btn btn-sm btn-primary" type="submit" value="Atualizar">
                        </div>                            
                      </div>
@@ -98,8 +101,17 @@
               </div>
             </div>
           </div>
+          
+          <div class="col-lg-4 mb-4">
+          <!-- Approach -->
+            <div class="card shadow mb-4">
+              <div class="card-body">
+                <img src="resources/images/img-propaganda.jpg" width="100%" heigth="100%" />
+              </div>
+            </div>
+          </div>
+          
         </div>
-
     </div>
     <!-- /.container-fluid -->
 
