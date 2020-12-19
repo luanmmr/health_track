@@ -4214,7 +4214,7 @@
 		var language = settings.oLanguage;
 		var previousSearch = settings.oPreviousSearch;
 		var features = settings.aanFeatures;
-		var input = '<input type="search" class="'+classes.sFilterInput+'"/>';
+		var input = '<input type="Procurar" class="'+classes.sFilterInput+'"/>';
 	
 		var str = language.sSearch;
 		str = str.match(/_INPUT_/) ?
@@ -4235,7 +4235,7 @@
 			/* Now do the filter */
 			if ( val != previousSearch.sSearch ) {
 				_fnFilterComplete( settings, {
-					"sSearch": val,
+					"sProcurar": val,
 					"bRegex": previousSearch.bRegex,
 					"bSmart": previousSearch.bSmart ,
 					"bCaseInsensitive": previousSearch.bCaseInsensitive
@@ -4347,7 +4347,7 @@
 	
 		/* Tell the draw function we have been filtering */
 		oSettings.bFiltered = true;
-		_fnCallbackFire( oSettings, null, 'search', [oSettings] );
+		_fnCallbackFire( oSettings, null, 'procurar', [oSettings] );
 	}
 	
 	

@@ -124,6 +124,18 @@ dt {
   font-weight: 700;
 }
 
+.input-date {
+	outline: none;
+	border: 0px;
+	width: 90%;
+}
+
+.space-title-button {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 dd {
   margin-bottom: .5rem;
   margin-left: 0;

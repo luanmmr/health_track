@@ -357,7 +357,7 @@
 
     <%@ include file="includes/modal-logout.jsp" %>
     
-
+  <%@ include file="includes/default-dashboard-js.jsp" %>
   <%@ include file="includes/dashboard-js.jsp" %>
 </body>
 

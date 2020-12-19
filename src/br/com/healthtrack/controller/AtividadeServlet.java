@@ -2,6 +2,7 @@ package br.com.healthtrack.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -24,6 +25,8 @@ import br.com.healthtrack.bean.Usuario;
 import br.com.healthtrack.dao.AtividadeDAO;
 import br.com.healthtrack.dao.DAOFactory;
 import br.com.healthtrack.dao.OracleUsuarioDAO;
+import br.com.healthtrack.exception.DBException;
+import sun.net.www.content.audio.aiff;
 
 /**
  * Servlet implementation class AtividadeServlet
@@ -33,7 +36,6 @@ public class AtividadeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private AtividadeDAO dao;
-	int idUsuario;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,63 +49,79 @@ public class AtividadeServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		idUsuario = new OracleUsuarioDAO().recuperarId(session.getAttribute("user").toString());
-		
-		List<Atividade> lista = dao.listar(idUsuario);
-		
-		request.setAttribute("lista", lista);
-		
-		request.getRequestDispatcher("atividades.jsp").forward(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		
+		String action = request.getParameter("action");
+		
+		switch (action) {
+		case "cadastrar":
+			cadastrar(request, response);
+			break;
+		
+		default:
+			break;
+		}
+	}
+	
+	private void cadastrar(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("user");
+		String atividade = request.getParameter("atividade");
+		int idRitmo = Integer.parseInt(request.getParameter("ritmo"));
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ss");
+		Calendar dataInicio = Calendar.getInstance();
+		Calendar dataFim = Calendar.getInstance();
+		int idEstiloNatacao = Integer.parseInt(request.getParameter("estilo-natacao"));
+		double distancia = Double.parseDouble(request.getParameter("distancia"));
+			
 		try {
-			
-			int atividade = Integer.parseInt(request.getParameter("atividade"));	
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-			Calendar data = Calendar.getInstance();
-			data.setTime(format.parse(request.getParameter("data")));
-			double distancia = Double.parseDouble(request.getParameter("distancia"));
-			int ritmo = Integer.parseInt(request.getParameter("ritmo"));
-			
-			switch (atividade) {
-			case 1:
-				Caminhada caminhada = new Caminhada(0, data, data, new Usuario(idUsuario), 
-													distancia, new RitmoAtividade(ritmo));
-				dao.cadastrar(caminhada);
-				break;
-			
-			case 2:
-				Corrida corrida = new Corrida(0, data, data, new Usuario(idUsuario), distancia, 
-											  new RitmoAtividade(ritmo));
-				dao.cadastrar(corrida);
-				break;
-			
-			case 3:
-				Ciclismo ciclismo = new Ciclismo(0, data, data, new Usuario(idUsuario), distancia, 
-						  						 new RitmoAtividade(ritmo));
-				dao.cadastrar(ciclismo);
-				break;
-			
-			case 4:
-				Natacao natacao = new Natacao(0, data, data, new Usuario(idUsuario), 
-											  new EstiloNatacao(1), new RitmoAtividade(ritmo));
-				dao.cadastrar(natacao);
-				break;
-			}
-		
-		} catch(Exception e) {
+		  dataInicio.setTime(format.parse(request.getParameter("dt-inicio")));
+		  dataFim.setTime(format.parse(request.getParameter("dt-fim")));
+		  
+		  switch (atividade) {
+		  case "caminhada":
+			  dao.cadastrar(new Caminhada(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+					  					  distancia, new RitmoAtividade(idRitmo)));
+			  break;
+		  
+		  case "corrida":
+			  dao.cadastrar(new Corrida(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+					  					distancia, new RitmoAtividade(idRitmo)));
+			  break;
+		  
+		  case "ciclismo":
+			  dao.cadastrar(new Ciclismo(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+					  					 distancia, new RitmoAtividade(idRitmo)));
+			  break;
+		  
+		  case "natacao":
+			  dao.cadastrar(new Natacao(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+					  					new EstiloNatacao(idEstiloNatacao), new RitmoAtividade(idRitmo)));
+			  break;
+		  }
+		  
+		  request.setAttribute("msgSucesso", "Atividade registrada!");
+		  
+		} catch (ParseException e) {
 			e.printStackTrace();
+			request.setAttribute("msgErro", "Erro ao processar as datas.");
+			
+		} catch (DBException e) {
+			e.printStackTrace();
+			request.setAttribute("msgErro", "Erro ao registrar atividade");
 		}
 		
 		request.getRequestDispatcher("atividades.jsp").forward(request, response);
-		
 	}
 
 }

@@ -20,6 +20,7 @@ import br.com.healthtrack.bean.Medida;
 import br.com.healthtrack.bean.Natacao;
 import br.com.healthtrack.bean.RitmoAtividade;
 import br.com.healthtrack.bean.Usuario;
+import br.com.healthtrack.exception.DBException;
 import br.com.healthtrack.singleton.ConnectionManager;
 
 public class OracleAtividadeDAO implements AtividadeDAO {
@@ -28,7 +29,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	
 	
 	@Override
-	public void cadastrar(Atividade atividade) {
+	public void cadastrar(Atividade atividade) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO t_htk_atividade "
 				   + "VALUES (SQ_HTK_ATIVIDADE.nextval, ?, ?, ?, ?, ?)";
@@ -92,6 +93,8 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DBException("Erro ao registrar atividade");
+			
 		} finally {
 			try {
 				pstmt.close();
@@ -104,7 +107,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	}
 	
 	@Override
-	public void atualizar(Atividade atividade) {
+	public void atualizar(Atividade atividade) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE t_htk_atividade SET CD_RITMO = ?, HR_INICIO = ?, "
 				   + "HR_FIM = ?, VL_KCAL = ? "
@@ -173,6 +176,8 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DBException("Erro ao atualizar atividade");
+			
 		} finally {
 			try {
 				pstmt.close();

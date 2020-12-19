@@ -58,8 +58,9 @@
 	                  <label for="password" class="sr-only">Password</label>
 	                  <input type="password" name="password" id="password" class="form-control" placeholder="***********" required>
 	                </div>
-	                <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Entrar" >
+	                <input name="login" id="login" class="btn btn-md btn-primary" type="submit" value="Entrar" >
 	              </form>
+	              <br>
 	              <a href="#" class="small">Esqueceu a senha?</a>
 	              <p>Não tem uma conta? <a href="signup.jsp" >Cadastra-se aqui!</a></p>
 	            </div>
