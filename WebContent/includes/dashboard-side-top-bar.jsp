@@ -5,8 +5,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" 
-               href="dashboard.jsp">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.jsp">
                 <div class="sidebar-brand-icon">
                     <img src="resources/images/circulo-logo.png">
                 </div>
@@ -35,7 +34,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="atividades.jsp" >
+                <a class="nav-link collapsed" href="atividades" >
                     <i class="fas fa-biking"></i>
                     <span>Atividades</span>
                 </a>

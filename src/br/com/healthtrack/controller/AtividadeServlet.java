@@ -26,7 +26,6 @@ import br.com.healthtrack.dao.AtividadeDAO;
 import br.com.healthtrack.dao.DAOFactory;
 import br.com.healthtrack.dao.OracleUsuarioDAO;
 import br.com.healthtrack.exception.DBException;
-import sun.net.www.content.audio.aiff;
 
 /**
  * Servlet implementation class AtividadeServlet
@@ -51,6 +50,16 @@ public class AtividadeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("user");
+		Calendar data = Calendar.getInstance();
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		
+		request.setAttribute("dtHoje", f.format(data.getTime()));
+		request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
+		
+		request.getRequestDispatcher("atividades.jsp").forward(request, response);
 	}
 
 	/**
@@ -78,7 +87,7 @@ public class AtividadeServlet extends HttpServlet {
 		Usuario usuario = (Usuario) session.getAttribute("user");
 		String atividade = request.getParameter("atividade");
 		int idRitmo = Integer.parseInt(request.getParameter("ritmo"));
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		Calendar dataInicio = Calendar.getInstance();
 		Calendar dataFim = Calendar.getInstance();
 		int idEstiloNatacao = Integer.parseInt(request.getParameter("estilo-natacao"));
@@ -121,7 +130,7 @@ public class AtividadeServlet extends HttpServlet {
 			request.setAttribute("msgErro", "Erro ao registrar atividade");
 		}
 		
-		request.getRequestDispatcher("atividades.jsp").forward(request, response);
+		doGet(request, response);
 	}
 
 }

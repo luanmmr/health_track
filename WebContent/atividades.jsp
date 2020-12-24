@@ -87,7 +87,8 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA</div>
                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                  <input type="date" value="1991-01-29" class="input-date font-weight-bold text-gray-800 h5 mb-0 mr-3">
+                                  <input type="date" value="${ dtHoje }" class="input-date font-weight-bold text-gray-800 
+                                                                                h5 mb-0 mr-3">
                                 </div>
                             </div>
                         </div>
@@ -160,22 +161,21 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
+	                                    <c:forEach items="${ listaAtividades }" var="atividade">
+	                                       <tr>
+	                                           <td>${ atividade.titulo }</td>
+	                                           <td>${ atividade.ritmo.nomeRitmo} </td>
+	                                           <td>
+	                                             <fmt:formatDate pattern="dd/MM/yyy HH:mm:ss" 
+	                                                             value="${ atividade.dataInicio.time}"/>
+	                                           </td>
+	                                           <td>
+	                                             <fmt:formatDate type="both" value="${ atividade.dataFim.time }"/>
+	                                           </td>
+	                                           <td>${ atividade.kcalPerdida}</td>
+	                                           <td></td>
+	                                       </tr>
+	                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

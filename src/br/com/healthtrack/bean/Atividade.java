@@ -13,6 +13,7 @@ import java.util.Calendar;
 public abstract class Atividade implements Serializable {
 	
 	private int codigo;
+	private String titulo;
 	private Calendar dataInicio;
 	private Calendar dataFim;
 	private double kcalPerdida;
@@ -141,6 +142,14 @@ public abstract class Atividade implements Serializable {
 	 */
 	public void setRitmo(RitmoAtividade ritmo) {
 		this.ritmo = ritmo;
+	}
+	
+	public String getTitulo() {
+		return this.titulo;
+	}
+	
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 	
 	/**
