@@ -56,10 +56,23 @@ public class AtividadeServlet extends HttpServlet {
 		Calendar data = Calendar.getInstance();
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 		
-		request.setAttribute("dtHoje", f.format(data.getTime()));
-		request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
+		if (request.getParameter("data-alterada") == null) {
+		  request.setAttribute("dtExibida", f.format(data.getTime()));
+	      request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
+		  request.getRequestDispatcher("atividades.jsp").forward(request, response);
 		
-		request.getRequestDispatcher("atividades.jsp").forward(request, response);
+		} else {
+		  try {
+			data.setTime(f.parse(request.getParameter("data")));
+			request.setAttribute("dtExibida", f.format(data.getTime()));
+			request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
+			request.getRequestDispatcher("atividades.jsp").forward(request, response);
+			
+		  } catch (ParseException e) {
+			  e.printStackTrace();
+			  request.setAttribute("msgErro", "Erro ao processar a data.");
+		  }
+		}
 	}
 
 	/**
@@ -123,7 +136,7 @@ public class AtividadeServlet extends HttpServlet {
 		  
 		} catch (ParseException e) {
 			e.printStackTrace();
-			request.setAttribute("msgErro", "Erro ao processar as datas.");
+			request.setAttribute("msgErro", "Erro ao processar a data.");
 			
 		} catch (DBException e) {
 			e.printStackTrace();

@@ -87,8 +87,11 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA</div>
                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                  <input type="date" value="${ dtHoje }" class="input-date font-weight-bold text-gray-800 
-                                                                                h5 mb-0 mr-3">
+                                  <form action="atividades" method="get" id="form-data">
+                                    <input type="hidden" name="data-alterada" value="data">
+                                    <input type="date" value="${ dtExibida }" onchange="document.getElementById('form-data').submit();"
+                                           name="data" class="input-date font-weight-bold text-gray-800 h5 mb-0 mr-3">
+                                  </form>
                                 </div>
                             </div>
                         </div>
