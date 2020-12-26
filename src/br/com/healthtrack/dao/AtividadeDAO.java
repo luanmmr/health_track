@@ -10,5 +10,6 @@ public interface AtividadeDAO {
 	
 	void cadastrar(Atividade atividade) throws DBException;
 	List<Atividade> listaAtividadesDia(int codigoCliente, Calendar data);
+	void excluir(int codigoAtividade);
 	
 }

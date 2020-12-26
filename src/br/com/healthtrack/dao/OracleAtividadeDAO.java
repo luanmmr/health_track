@@ -164,6 +164,32 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		
 	}
 	
+	@Override
+	public void excluir(int codigoAtividade) {
+	  PreparedStatement pstmt = null;
+	  String sql = "DELETE FROM t_htk_atividade WHERE cd_atividade = ?";
+	  
+	  conexao = ConnectionManager.getInstance().getConnection();
+	  
+	  try {
+	    pstmt = conexao.prepareStatement(sql);
+	    pstmt.setInt(1, codigoAtividade);
+	    pstmt.executeUpdate();
+		  
+	  } catch (SQLException e) {
+		  e.printStackTrace();
+		  
+	  } finally {
+		  try {
+		    pstmt.close();
+		    conexao.close();
+		    
+		  } catch (SQLException e) {
+			  e.printStackTrace();
+		  }
+	  }
+	}
+	
 	private Atividade getAtividade(ResultSet rs, String atv) {
 		Calendar dataInicio = Calendar.getInstance();
 		Calendar dataFim = Calendar.getInstance();

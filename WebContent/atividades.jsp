@@ -151,6 +151,8 @@
                                             <th>Fim</th>
                                             <th>Gasto Calórico</th>
                                             <th></th>
+                                            <th></th>
+                           
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -161,13 +163,16 @@
                                             <th>Fim</th>
                                             <th>Gasto Calórico</th>
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
+                                        
 	                                    <c:forEach items="${ listaAtividades }" var="atividade">
+	                                    
 	                                       <tr>
 	                                           <td>${ atividade.titulo }</td>
-	                                           <td>${ atividade.ritmo.nomeRitmo} </td>
+	                                           <td>${ atividade.ritmo.nomeRitmo}</td>
 	                                           <td>
 	                                             <fmt:formatDate pattern="dd/MM/yyy HH:mm:ss" 
 	                                                             value="${ atividade.dataInicio.time}"/>
@@ -176,9 +181,19 @@
 	                                             <fmt:formatDate type="both" value="${ atividade.dataFim.time }"/>
 	                                           </td>
 	                                           <td>${ atividade.kcalPerdida}</td>
-	                                           <td></td>
+	                                           <td><a href="#"><i class="fas fa-edit"></i></a></td>
+	                                           <td>
+	                                           <form action="atividades" method="post" id="form-excluir">
+	                                            <input type="hidden" name="action" value="excluir">
+	                                           	<input type="hidden" name="id" value="${ atividade.codigo }">
+	                                           	<a href="#" onclick="document.getElementById('form-excluir').submit();" 
+	                                           				class="fas fa-window-close"></a>
+	                                           </form>
+	                                           </td>
 	                                       </tr>
+	                                   
 	                                    </c:forEach>
+	                                    
                                     </tbody>
                                 </table>
                             </div>

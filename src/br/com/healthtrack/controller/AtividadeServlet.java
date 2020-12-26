@@ -88,9 +88,24 @@ public class AtividadeServlet extends HttpServlet {
 			cadastrar(request, response);
 			break;
 		
+		case "excluir":
+			excluir(request, response);
+			break;
+		
 		default:
 			break;
 		}
+	}
+	
+	
+	private void excluir(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		
+		int codigoAtv =  Integer.parseInt(request.getParameter("id"));
+		dao.excluir(codigoAtv);
+		
+		request.setAttribute("msgSucesso", "Atividade excluída");
+		doGet(request, response);
 	}
 	
 	private void cadastrar(HttpServletRequest request, HttpServletResponse response)
