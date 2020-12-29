@@ -57,20 +57,23 @@ public class AtividadeServlet extends HttpServlet {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 		
 		if (request.getParameter("data-alterada") == null) {
-		  request.setAttribute("dtExibida", f.format(data.getTime()));
+		  session.setAttribute("dtExibidaAtv", f.format(data.getTime()));
 	      request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
 		  request.getRequestDispatcher("atividades.jsp").forward(request, response);
 		
 		} else {
 		  try {
 			data.setTime(f.parse(request.getParameter("data")));
-			request.setAttribute("dtExibida", f.format(data.getTime()));
+			session.setAttribute("dtExibidaAtv", f.format(data.getTime()));
 			request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
-			request.getRequestDispatcher("atividades.jsp").forward(request, response);
 			
 		  } catch (ParseException e) {
 			  e.printStackTrace();
 			  request.setAttribute("msgErro", "Erro ao processar a data.");
+			  
+		  } finally {
+			  request.getRequestDispatcher("atividades.jsp").forward(request, response);
+			  
 		  }
 		}
 	}
@@ -91,7 +94,7 @@ public class AtividadeServlet extends HttpServlet {
 		case "excluir":
 			excluir(request, response);
 			break;
-		
+
 		default:
 			break;
 		}
@@ -105,25 +108,27 @@ public class AtividadeServlet extends HttpServlet {
 		dao.excluir(codigoAtv);
 		
 		request.setAttribute("msgSucesso", "Atividade excluída");
-		doGet(request, response);
+		
+		posExclusao(request, response);
 	}
+	
 	
 	private void cadastrar(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession();
 		Usuario usuario = (Usuario) session.getAttribute("user");
 		String atividade = request.getParameter("atividade");
 		int idRitmo = Integer.parseInt(request.getParameter("ritmo"));
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		Calendar dataInicio = Calendar.getInstance();
 		Calendar dataFim = Calendar.getInstance();
 		int idEstiloNatacao = Integer.parseInt(request.getParameter("estilo-natacao"));
 		double distancia = Double.parseDouble(request.getParameter("distancia"));
-			
+
 		try {
-		  dataInicio.setTime(format.parse(request.getParameter("dt-inicio")));
-		  dataFim.setTime(format.parse(request.getParameter("dt-fim")));
+		  dataInicio.setTime(f.parse(request.getParameter("dt-inicio")));
+		  dataFim.setTime(f.parse(request.getParameter("dt-fim")));
 		  
 		  switch (atividade) {
 		  case "caminhada":
@@ -146,9 +151,9 @@ public class AtividadeServlet extends HttpServlet {
 					  					new EstiloNatacao(idEstiloNatacao), new RitmoAtividade(idRitmo)));
 			  break;
 		  }
-		  
+
 		  request.setAttribute("msgSucesso", "Atividade registrada!");
-		  
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 			request.setAttribute("msgErro", "Erro ao processar a data.");
@@ -157,8 +162,42 @@ public class AtividadeServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("msgErro", "Erro ao registrar atividade");
 		}
+
+		posCadastro(request, response, dataInicio, session, usuario);
 		
-		doGet(request, response);
+	}
+	
+	
+	private void posCadastro(HttpServletRequest request, HttpServletResponse response, 
+		Calendar data, HttpSession session, Usuario usuario) throws ServletException, IOException {
+
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+
+		session.setAttribute("dtExibidaAtv", f.format(data.getTime()));
+		request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
+		request.getRequestDispatcher("atividades.jsp").forward(request, response);
+		
+	}
+	
+	private void posExclusao(HttpServletRequest request, HttpServletResponse response) 
+		throws ServletException, IOException {
+
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("user");
+		
+		Calendar data = Calendar.getInstance();
+		
+		try {
+		  data.setTime(f.parse((String) session.getAttribute("dtExibidaAtv")));
+		  request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
+		  
+		} catch (ParseException e) {
+			e.printStackTrace();
+			
+		}
+		
+		request.getRequestDispatcher("atividades.jsp").forward(request, response);
 	}
 
 }

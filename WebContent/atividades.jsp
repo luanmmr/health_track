@@ -89,7 +89,7 @@
                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
                                   <form action="atividades" method="get" id="form-data">
                                     <input type="hidden" name="data-alterada" value="data">
-                                    <input type="date" value="${ dtExibida }" onchange="document.getElementById('form-data').submit();"
+                                    <input type="date" value="${ dtExibidaAtv }" onchange="document.getElementById('form-data').submit();"
                                            name="data" class="input-date font-weight-bold text-gray-800 h5 mb-0 mr-3">
                                   </form>
                                 </div>
@@ -118,7 +118,7 @@
                     <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                     </span>
-                    <span class="text">Add Atividade</span>
+                    <span class="text">Atividade</span>
                   </a>
                   
               </div>
@@ -142,8 +142,8 @@
                   <br><br>
                 </c:if>
                 <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="table table-striped">
+                                    <thead style="background-color: #1cc88a; color: white;">
                                         <tr>
                                             <th>Atividade</th>
                                             <th>Intensidade</th>
@@ -155,17 +155,6 @@
                            
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Atividade</th>
-                                            <th>Intensidade</th>
-                                            <th>Início</th>
-                                            <th>Fim</th>
-                                            <th>Gasto Calórico</th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         
 	                                    <c:forEach items="${ listaAtividades }" var="atividade">
@@ -183,10 +172,10 @@
 	                                           <td>${ atividade.kcalPerdida}</td>
 	                                           <td><a href="#"><i class="fas fa-edit"></i></a></td>
 	                                           <td>
-	                                           <form action="atividades" method="post" id="form-excluir">
+	                                           <form action="atividades" method="post" id="form-excluir-${ atividade.codigo }">
 	                                            <input type="hidden" name="action" value="excluir">
 	                                           	<input type="hidden" name="id" value="${ atividade.codigo }">
-	                                           	<a href="#" onclick="document.getElementById('form-excluir').submit();" 
+	                                           	<a href="#" onclick="document.getElementById('form-excluir-${ atividade.codigo }').submit();" 
 	                                           				class="fas fa-window-close"></a>
 	                                           </form>
 	                                           </td>
@@ -210,7 +199,7 @@
                     <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                     </span>
-                    <span class="text">Add Atividade</span>
+                    <span class="text">Atividade</span>
                   </a>
           </div>
         </div>
@@ -320,7 +309,6 @@
     
 
   <%@ include file="includes/default-dashboard-js.jsp" %>
-  <%@ include file="includes/atividades-js.jsp" %>
 </body>
 
 </html>
