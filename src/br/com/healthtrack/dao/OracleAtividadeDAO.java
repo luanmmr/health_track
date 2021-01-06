@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.tomcat.dbcp.dbcp2.SQLExceptionList;
+
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import br.com.healthtrack.bean.Alimento;
@@ -95,8 +97,11 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		} catch (SQLException e) {
 			try {
 				conexao.rollback();
+				
 			} catch (Exception a) {
 				a.printStackTrace();
+				throw new DBException("Erro ao fazer um rollback");
+				
 			}		
 			e.printStackTrace();
 			throw new DBException("Erro ao registrar atividade");
@@ -106,11 +111,93 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 			  conexao.commit();
 		      pstmt.close();
 			  conexao.close();
+			  
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}	
 		
+	}
+	
+	@Override
+	public void update(Atividade atividade) throws DBException {
+	  PreparedStatement pstmt = null;
+	  String sql = "UPDATE t_htk_atividade SET cd_ritmo = ?, dt_inicio = ?, dt_fim = ?, vl_kcal = ?"
+	  		     + "WHERE cd_atividade = ?";
+	  
+	  conexao = ConnectionManager.getInstance().getConnection();
+	  
+	  try {
+		conexao.setAutoCommit(false);
+		
+	    pstmt = conexao.prepareStatement(sql);
+	    pstmt.setInt(1, atividade.getRitmo().getCodigo());
+	    java.sql.Date dataInicio = new java.sql.Date(atividade.getDataInicio().getTimeInMillis());
+	    pstmt.setDate(2, dataInicio);
+	    java.sql.Date dataFim = new java.sql.Date(atividade.getDataFim().getTimeInMillis());
+	    pstmt.setDate(3, dataFim);
+	    pstmt.setDouble(4, atividade.getKcalPerdida());
+	    pstmt.setInt(5, atividade.getCodigo());
+	    pstmt.executeUpdate();
+	    
+	    if (atividade instanceof Caminhada) {
+	       Caminhada atv = (Caminhada) atividade;
+	       sql = "UPDATE t_htk_caminhada SET vl_distancia = ? WHERE cd_atividade = ?";
+	       pstmt = conexao.prepareStatement(sql);
+	       pstmt.setDouble(1, atv.getDistancia());
+	       pstmt.setInt(2, atv.getCodigo());
+	       pstmt.executeUpdate();
+	       
+	    } else if (atividade instanceof Ciclismo) {
+	    	Ciclismo atv = (Ciclismo) atividade;
+	        sql = "UPDATE t_htk_ciclismo SET vl_distancia = ? WHERE cd_atividade = ?";
+	        pstmt = conexao.prepareStatement(sql);
+	        pstmt.setDouble(1, atv.getDistancia());
+	        pstmt.setInt(2, atv.getCodigo());
+	        pstmt.executeUpdate();
+	        
+	    } else if (atividade instanceof Corrida) {
+	    	Corrida atv = (Corrida) atividade;
+	        sql = "UPDATE t_htk_corrida SET vl_distancia = ? WHERE cd_atividade = ?";
+	        pstmt = conexao.prepareStatement(sql);
+	        pstmt.setDouble(1, atv.getDistancia());
+	        pstmt.setInt(2, atv.getCodigo());
+	        pstmt.executeUpdate();
+	        
+	    } else if (atividade instanceof Natacao) {
+	    	Natacao atv = (Natacao) atividade;
+	        sql = "UPDATE t_htk_natacao SET cd_estilo = ? WHERE cd_atividade = ?";
+	        pstmt = conexao.prepareStatement(sql);
+	        pstmt.setDouble(1, atv.getEstilo().getCodigo());
+	        pstmt.setInt(2, atv.getCodigo());
+	        pstmt.executeUpdate();
+	        
+	    } 
+	    
+	  } catch (SQLException e) {
+		  try {
+			conexao.rollback();  
+			
+		  } catch(Exception a) {
+			a.printStackTrace();
+			throw new DBException("Erro ao fazer um rollback");
+			
+		  }  
+		  e.printStackTrace();
+		  throw new DBException("Erro ao atualizar atividade");
+		  
+	  } finally {
+		  try {
+		    conexao.commit();
+		    pstmt.close();
+		    conexao.close();
+		    
+		  } catch (SQLException e) {
+			  e.printStackTrace();
+			  
+		  }
+	  }
+	  
 	}
 	
 	@Override
@@ -120,6 +207,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		String dia = f.format(data.getTime());
 		data.add(Calendar.DATE, 1);
 		String diaLimite = f.format(data.getTime());
+		String sql = null;
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -129,11 +217,28 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		
 		try {
 		  for ( String atv : atvArray ) {
-		    String sql = "SELECT * FROM t_htk_" + atv 
-					   + " INNER JOIN t_htk_atividade ON (t_htk_" + atv +".cd_atividade = t_htk_atividade.cd_atividade)"
-					   + " INNER JOIN t_htk_ritmo_atv ON (t_htk_atividade.cd_ritmo = t_htk_ritmo_atv.cd_ritmo)"
-					   + " WHERE (t_htk_atividade.dt_inicio >= ? AND t_htk_atividade.dt_inicio < ?)"
-					   + " AND t_htk_atividade.cd_usuario = ?";
+			
+			switch(atv) {
+			
+			case "caminhada" :
+			case "ciclismo" :
+			case "corrida" :
+			  sql = "SELECT * FROM t_htk_" + atv 
+			     + " INNER JOIN t_htk_atividade ON (t_htk_" + atv +".cd_atividade = t_htk_atividade.cd_atividade)"
+			     + " INNER JOIN t_htk_ritmo_atv ON (t_htk_atividade.cd_ritmo = t_htk_ritmo_atv.cd_ritmo)"
+			     + " WHERE (t_htk_atividade.dt_inicio >= ? AND t_htk_atividade.dt_inicio < ?)"
+			     + " AND t_htk_atividade.cd_usuario = ?";
+			  break;
+			
+			case "natacao" :
+			  sql = "SELECT * FROM t_htk_" + atv 
+		         + " INNER JOIN t_htk_atividade ON (t_htk_" + atv +".cd_atividade = t_htk_atividade.cd_atividade)"
+		         + " INNER JOIN t_htk_ritmo_atv ON (t_htk_atividade.cd_ritmo = t_htk_ritmo_atv.cd_ritmo)"
+		         + " INNER JOIN t_htk_estilo_natacao ON (t_htk_" + atv + ".cd_estilo = t_htk_estilo_natacao.cd_estilo)"
+		         + " WHERE (t_htk_atividade.dt_inicio >= ? AND t_htk_atividade.dt_inicio < ?)"
+		         + " AND t_htk_atividade.cd_usuario = ?";
+			  break;
+			}
 				  
 			pstmt = conexao.prepareStatement(sql);
 			pstmt.setString(1, dia);
@@ -190,6 +295,55 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	  }
 	}
 	
+	@Override
+	public Atividade buscar(int codigoAtividade, String atividade) {
+	  Atividade atv = null;
+	  PreparedStatement pstmt = null;
+	  ResultSet rs = null;
+	  String sql = null;
+	  
+	  switch(atividade) {
+	  
+	  case "caminhada" :
+	  case "ciclismo" :
+	  case "corrida" :
+	    sql = "SELECT * FROM t_htk_atividade " +
+		  	  "INNER JOIN t_htk_" + atividade + 
+		  	  " ON (t_htk_atividade.cd_atividade = t_htk_" + atividade + ".cd_atividade) " +
+		  	  "INNER JOIN t_htk_ritmo_atv ON (t_htk_atividade.cd_ritmo = t_htk_ritmo_atv.cd_ritmo) " +
+		  	  "WHERE t_htk_atividade.cd_atividade = ?";
+	    break;
+	  
+	  case "natacao" :
+	    sql = "SELECT * FROM t_htk_atividade " +
+		  	  "INNER JOIN t_htk_" + atividade + 
+		  	  " ON (t_htk_atividade.cd_atividade = t_htk_" + atividade + ".cd_atividade) " +
+		  	  "INNER JOIN t_htk_ritmo_atv ON (t_htk_atividade.cd_ritmo = t_htk_ritmo_atv.cd_ritmo) " +
+		  	  "INNER JOIN t_htk_estilo_natacao ON (t_htk_" + atividade + ".cd_estilo = t_htk_estilo_natacao.cd_estilo) " +
+		  	  "WHERE t_htk_atividade.cd_atividade = ?";
+	    break;
+	  
+	  }
+	  
+	  
+	  conexao = ConnectionManager.getInstance().getConnection();
+	  
+	  try {
+	    pstmt = conexao.prepareStatement(sql);
+	    pstmt.setInt(1, codigoAtividade);
+	    rs = pstmt.executeQuery();
+	    
+	    if (rs.next()) {
+	      atv = getAtividade(rs, atividade);
+	    }
+	    
+	  } catch (SQLException e) {
+		  e.printStackTrace();
+	  }
+	  return atv;
+
+	}
+	
 	private Atividade getAtividade(ResultSet rs, String atv) {
 		Calendar dataInicio = Calendar.getInstance();
 		Calendar dataFim = Calendar.getInstance();
@@ -222,7 +376,8 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 			break;
 		  
 		  case "natacao" :
-			atividade = new Natacao(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, null, null, 
+			atividade = new Natacao(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, null,
+					                new EstiloNatacao(rs.getInt("CD_ESTILO"), rs.getString("NM_ESTILO")), 
 									new RitmoAtividade(rs.getInt("CD_RITMO"), rs.getString("NM_RITMO")));
 			atividade.setTitulo(StringUtils.capitalize(atv));
 			break;

@@ -34,7 +34,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="atividades" >
+                <a class="nav-link collapsed" href="atividades?action=listar" >
                     <i class="fas fa-biking"></i>
                     <span>Atividades</span>
                 </a>

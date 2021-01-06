@@ -2,6 +2,7 @@
   pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -44,7 +45,7 @@
 	                               <div class="h5 mb-0 font-weight-bold text-gray-800">18 kcal</div>
 	                           </div>
 	                           <div class="col-auto">
-	                               <i class="fas fa-biking fa-2x text-gray-300"></i>
+	                               <i class="fas fa-running fa-2x text-gray-300"></i>
 	                           </div>
 	                       </div>
 	                   </div>
@@ -85,10 +86,10 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA</div>
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA DE INÍCIO</div>
                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
                                   <form action="atividades" method="get" id="form-data">
-                                    <input type="hidden" name="data-alterada" value="data">
+                                    <input type="hidden" name="action" value="alterar-data">
                                     <input type="date" value="${ dtExibidaAtv }" onchange="document.getElementById('form-data').submit();"
                                            name="data" class="input-date font-weight-bold text-gray-800 h5 mb-0 mr-3">
                                   </form>
@@ -141,51 +142,61 @@
                   </a>
                   <br><br>
                 </c:if>
+                
+                <c:if test="${ not empty listaAtividades}">
                 <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead style="background-color: #1cc88a; color: white;">
-                                        <tr>
-                                            <th>Atividade</th>
-                                            <th>Intensidade</th>
-                                            <th>Início</th>
-                                            <th>Fim</th>
-                                            <th>Gasto Calórico</th>
-                                            <th></th>
-                                            <th></th>
+                   <table class="table table-striped">
+                       <thead style="background-color: #1cc88a; color: white;">
+                           <tr>
+                               <th>Atividade</th>
+                               <th>Intensidade</th>
+                               <th>Início</th>
+                               <th>Fim</th>
+                               <th>Gasto Calórico</th>
+                               <th></th>
+                               <th></th>
+              
+                           </tr>
+                       </thead>
+                       <tbody>
                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-	                                    <c:forEach items="${ listaAtividades }" var="atividade">
-	                                    
-	                                       <tr>
-	                                           <td>${ atividade.titulo }</td>
-	                                           <td>${ atividade.ritmo.nomeRitmo}</td>
-	                                           <td>
-	                                             <fmt:formatDate pattern="dd/MM/yyy HH:mm:ss" 
-	                                                             value="${ atividade.dataInicio.time}"/>
-	                                           </td>
-	                                           <td>
-	                                             <fmt:formatDate type="both" value="${ atividade.dataFim.time }"/>
-	                                           </td>
-	                                           <td>${ atividade.kcalPerdida}</td>
-	                                           <td><a href="#"><i class="fas fa-edit"></i></a></td>
-	                                           <td>
-	                                           <form action="atividades" method="post" id="form-excluir-${ atividade.codigo }">
-	                                            <input type="hidden" name="action" value="excluir">
-	                                           	<input type="hidden" name="id" value="${ atividade.codigo }">
-	                                           	<a href="#" onclick="document.getElementById('form-excluir-${ atividade.codigo }').submit();" 
-	                                           				class="fas fa-window-close"></a>
-	                                           </form>
-	                                           </td>
-	                                       </tr>
-	                                   
-	                                    </c:forEach>
-	                                    
-                                    </tbody>
-                                </table>
-                            </div>
+                        <c:forEach items="${ listaAtividades }" var="atividade">
+                        
+                           <tr>
+                               <td>${ atividade.titulo }</td>
+                               <td>${ atividade.ritmo.nomeRitmo}</td>
+                               <td>
+                                 <fmt:formatDate pattern="dd/MM/yyy HH:mm:ss" 
+                                                 value="${ atividade.dataInicio.time}"/>
+                               </td>
+                               <td>
+                                 <fmt:formatDate type="both" value="${ atividade.dataFim.time }"/>
+                               </td>
+                               <td>${ atividade.kcalPerdida}</td>
+                               <td><a href="atividades?action=editar&atividade=${ fn:toLowerCase(atividade.titulo) }&id=${ atividade.codigo }">
+                               				<i class="fas fa-edit"></i>
+                               		 </a>
+                               </td>
+                               <td>
+                               <form action="atividades" method="post" id="form-excluir-${ atividade.codigo }">
+                                <input type="hidden" name="action" value="excluir">
+                               	<input type="hidden" name="id" value="${ atividade.codigo }">
+                               	<a href="#" onclick="document.getElementById('form-excluir-${ atividade.codigo }').submit();" 
+                               				class="fas fa-window-close"></a>
+                               </form>
+                               </td>
+                           </tr>
+                       
+                        </c:forEach>
+                        
+                       </tbody>
+                   </table>
+               </div>
+               </c:if>
+               <c:if test="${ empty listaAtividades }">
+               	<p>Nenhuma atividade registrada nesse dia.</p>
+               </c:if>
+               
               </div>
             </div>
           </div>
@@ -278,9 +289,9 @@
 	                   <div class="form-group col-md-6">
 	                      <div class="input-group mb-3">
 	                        <div class="input-group-prepend">
-	                            <label class="input-group-text" for="inputGroupSelect01">Estilo</label>
+	                            <label class="input-group-text" for="inputGroupSelect02">Estilo</label>
 	                        </div>
-	                        <select name="estilo-natacao" class="custom-select" id="inputGroupSelect01" required>
+	                        <select name="estilo-natacao" class="custom-select" id="inputGroupSelect02" required>
 	                            <option value="" selected>Selecione...</option>
 	                            <option value="1">Borboleta</option>
 	                            <option value="2">Peito</option>
