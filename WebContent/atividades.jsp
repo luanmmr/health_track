@@ -15,6 +15,8 @@
   <title>Atividades</title>
   <%@ include file="includes/dashboard-style.jsp" %>
   <link href="resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  
+ 
 </head>
 
 <body id="page-top">
@@ -42,7 +44,7 @@
 	                           <div class="col mr-2">
 	                               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 	                                   Gasto Calório</div>
-	                               <div class="h5 mb-0 font-weight-bold text-gray-800">18 kcal</div>
+	                               <div class="h5 mb-0 font-weight-bold text-gray-800">${ gastoCaloricoTotal } kcal</div>
 	                           </div>
 	                           <div class="col-auto">
 	                               <i class="fas fa-running fa-2x text-gray-300"></i>
@@ -247,9 +249,9 @@
 	                  <div class="form-row">
 	                     <div class="input-group mb-3 col-md-6">
 	                        <div class="input-group-prepend">
-	                            <label class="input-group-text" for="inputGroupSelect01">Atividade</label>
+	                            <label class="input-group-text">Atividade</label>
 	                        </div>
-	                        <select name="atividade" class="custom-select" id="inputGroupSelect01" required>
+	                        <select id="atv" name="atividade" class="custom-select" required>
 	                            <option value="" selected>Selecione...</option>
 	                            <option value="caminhada">Caminhada</option>
 	                            <option value="corrida">Corrida</option>
@@ -260,9 +262,11 @@
                       
 	                      <div class="input-group mb-3 col-md-6">
 	                         <div class="input-group-prepend">
-	                             <label class="input-group-text" for="inputGroupSelect01">Ritmo</label>
+	                             <label class="input-group-text" for="ritmoAtividade">Ritmo</label>
 	                         </div>
-	                         <select name="ritmo" class="custom-select" id="inputGroupSelect01" required>
+	                         <select name="ritmo" class="custom-select" id="ritmoAtividade" 
+	                         				 data-toggle="tooltip" data-placement="top" data-html="true"
+	                         				 title="texto" required>
 	                             <option value="" selected>Selecione...</option>
 	                             <option value="1">Leve</option>
 	                             <option value="2">Moderado</option>
@@ -274,24 +278,26 @@
                     <div class="form-row">       
                       <div class="form-group col-md-6">
                         <label for="dt-inicio" class="label-custom">Início:</label>
-                         <input type="datetime-local" name="dt-inicio" step="1" class="form-control input-custom" required>
+                         <input type="datetime-local" name="dt-inicio" step="1" class="form-control input-custom" 
+                         	      value="${ dtExibidaAtv }T00:00:00" required>
                        </div>
                          
                        <div class="form-group col-md-6">
                         <label for="dt-fim" class="label-custom">Fim:</label>
-                         <input type="datetime-local" name="dt-fim" step="1" class="form-control input-custom" required>
+                         <input type="datetime-local" name="dt-fim" step="1" class="form-control input-custom" 
+                         	      value="${ dtExibidaAtv }T00:00:00" required>
                        </div>  
                     </div>
+     
                      
-                     <br>
-                     
-                   <div class="form-row" >       
-	                   <div class="form-group col-md-6">
+                   <div class="form-row" >    
+	                   <div class="form-group col-md-6" id="estilo-ntc" style="display:none">
+	                   		<br>
 	                      <div class="input-group mb-3">
 	                        <div class="input-group-prepend">
 	                            <label class="input-group-text" for="inputGroupSelect02">Estilo</label>
 	                        </div>
-	                        <select name="estilo-natacao" class="custom-select" id="inputGroupSelect02" required>
+	                        <select id="estilo-natacao" name="estilo-natacao" class="custom-select" id="inputGroupSelect02">
 	                            <option value="" selected>Selecione...</option>
 	                            <option value="1">Borboleta</option>
 	                            <option value="2">Peito</option>
@@ -300,9 +306,10 @@
 	                      </div>
 	                   </div>
                       
-                      <div class="form-group col-md-6">
-                        <input type="number" step="0.01" name="distancia" class="form-control input-custom" 
-                               placeholder="Distância" required>
+                      <div class="form-group col-md-6" id="dtc" style="display:none">
+                        <label for="distancia" class="label-custom">Distância em KM:</label>
+                        <input type="number" step="0.01" id="distancia" name="distancia" class="form-control input-custom" 
+                               placeholder="Ex: 12,5">
                       </div>                             
                     </div>
                     
@@ -319,7 +326,7 @@
 		</div>
     
 
-  <%@ include file="includes/default-dashboard-js.jsp" %>
+  <%@ include file="includes/atividade-js.jsp" %>
 </body>
 
 </html>

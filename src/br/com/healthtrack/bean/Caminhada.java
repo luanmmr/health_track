@@ -31,6 +31,12 @@ public class Caminhada extends Atividade implements DistanciaPercorrida {
 		calcularKcalPerdida();
 	}
 	
+	public Caminhada(int codigo, Calendar dataInicio, Calendar dataFim,
+			 		 double distancia, RitmoAtividade ritmo) {
+		super(codigo, dataInicio, dataFim, ritmo);
+		setDistancia(distancia);
+	}
+	
 	/**
 	 * Construtor com bloco de instruções vazio e sem parâmetros
 	 */
@@ -62,37 +68,28 @@ public class Caminhada extends Atividade implements DistanciaPercorrida {
 	 */
 	@Override
 	public void calcularKcalPerdida() {	
-		/*if (getRitmo() == "Leve") {
-			setKcalPerdida(kcalPerdidaMinuto(3.3, getUsuario().getPeso().getPeso()));
-		}else if(getRitmo() == "Moderado") {
-			setKcalPerdida(kcalPerdidaMinuto(5, getUsuario().getPeso().getPeso()));
-		}else {
-			setKcalPerdida(kcalPerdidaMinuto(8, getUsuario().getPeso().getPeso()));
-		}*/
-	}
-	
-	private double kcalPerdidaMinuto(double mets, double peso) {
-		/*
-		 * Fonte
-		 * http://www.cdof.com.br/MET_compendium.pdf
-		 * 
-		 * Caminhada Leve
-		 * Até 4,8 km/h = MET 3.3
-         * Caminhada Moderada
-         * De 4,8 km/h até 6,4 km/h = MET 5
-         * Caminhada Intensa
-         * De 6,4 km/h até 8 km/h = MET 8
-         * 
-		 * É utilizado a seguinte fórmula
-		 * (MET * 3,5) * Peso.Usuario * 5 (5 Kcal para cada litro de oxigênio consumido)
-		 * Obtenho assim o gasto calórico por minuto do usuário. Depois multiplico pelo
-		 * tempo em minutos que durou a atividade física, obtendo assim o total de kcal
-		 * perdida.
-		 * 
-		 */
+	  /*
+	  * Fonte
+	  * http://www.cdof.com.br/MET_compendium.pdf
+	  * 
+	  * Caminhada Leve
+	  * Até 4,8 km/h = MET 3.3
+      * Caminhada Moderada
+      * De 4,8 km/h até 6,4 km/h = MET 5
+      * Caminhada Intensa
+      * De 6,4 km/h até 8 km/h = MET 8
+      * 
+	  */
+	  if (getRitmo().getCodigo() == 1) {
+	    setKcalPerdida(kcalPerdida(3.3, getUsuario().getPeso()));
+	    
+	  }else if(getRitmo().getCodigo() == 2) {
+		setKcalPerdida(kcalPerdida(5, getUsuario().getPeso()));
 		
-		// Divido por 1000 para obter em litros, em detrimento de ml
-		return (mets * 3.5) * peso / 1000 * 5;
+	  }else {
+		setKcalPerdida(kcalPerdida(8, getUsuario().getPeso()));
+		
+	  }
 	}
 	
 	/**
@@ -101,6 +98,6 @@ public class Caminhada extends Atividade implements DistanciaPercorrida {
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s\"distanciaPercorrida\": %.1f \n\n}", super.toString(), distanciaPercorrida);
+	  return String.format("%s\"distanciaPercorrida\": %.1f \n\n}", super.toString(), distanciaPercorrida);
 	}
 }

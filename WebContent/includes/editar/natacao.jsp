@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
+
 <form action="atividades" method="post" style="margin-top: 20px;">
     <input type="hidden" name="action" value="update">
     <input type="hidden" name="id" value="${ editarAtividade.codigo }">

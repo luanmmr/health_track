@@ -25,10 +25,16 @@ public class Corrida extends Atividade implements DistanciaPercorrida {
 	 * @param ritmo Ritmo da Atividade(Leve, Moderado, Intenso)
 	 */
 	public Corrida(int codigo, Calendar dataInicio, Calendar dataFim, Usuario usr, 
-					 double distancia, RitmoAtividade ritmo) {
+				   double distancia, RitmoAtividade ritmo) {
 		super(codigo, dataInicio, dataFim, usr, ritmo);
 		setDistancia(distancia);
 		calcularKcalPerdida();
+	}
+	
+	public Corrida(int codigo, Calendar dataInicio, Calendar dataFim,
+	 		 	   double distancia, RitmoAtividade ritmo) {
+		super(codigo, dataInicio, dataFim, ritmo);
+		setDistancia(distancia);
 	}
 	
 	/**
@@ -62,38 +68,30 @@ public class Corrida extends Atividade implements DistanciaPercorrida {
 	 */
 	@Override
 	public void calcularKcalPerdida() {	
-		/*if (getRitmo() == "Leve") {
-			setKcalPerdida(kcalPerdidaMinuto(11, getUsuario().getPeso().getPeso()));
-		}else if(getRitmo() == "Moderado") {
-			setKcalPerdida(kcalPerdidaMinuto(13.5, getUsuario().getPeso().getPeso()));
-		}else {
-			setKcalPerdida(kcalPerdidaMinuto(16, getUsuario().getPeso().getPeso()));
-		}*/
+	  /*
+	  * Fonte
+	  * http://www.cdof.com.br/MET_compendium.pdf
+	  * 
+	  * Corrida Leve
+	  * Até 10,7 km/h = MET 11
+      * Corrida Moderado
+      * De 10,7 km/h até 12,8 km/h = MET 13.5
+      * Corrida Intenso
+      * De 12,8 km/h até 16,1 km/h = MET 16
+      *
+	  */
+	  if (getRitmo().getCodigo() == 1) {
+	    setKcalPerdida(kcalPerdida(11, getUsuario().getPeso()));
+	    
+	  }else if(getRitmo().getCodigo() == 2) {
+		setKcalPerdida(kcalPerdida(13.5, getUsuario().getPeso()));
+		
+	  }else {
+		setKcalPerdida(kcalPerdida(16, getUsuario().getPeso()));
+		
+	  }
 	}
 	
-	private double kcalPerdidaMinuto(double mets, double peso) {
-		/*
-		 * Fonte
-		 * http://www.cdof.com.br/MET_compendium.pdf
-		 * 
-		 * Corrida Leve
-		 * Até 10,7 km/h = MET 11
-         * Corrida Moderado
-         * De 10,7 km/h até 12,8 km/h = MET 13.5
-         * Corrida Intenso
-         * De 12,8 km/h até 16,1 km/h = MET 16
-         * 
-		 * É utilizado a seguinte fórmula
-		 * (MET * 3,5) * Peso.Usuario * 5 (5 Kcal para cada litro de oxigênio consumido)
-		 * Obtenho assim o gasto calórico por minuto do usuário. Depois multiplico pelo
-		 * tempo em minutos que durou a atividade física, obtendo assim o total de kcal
-		 * perdida.
-		 * 
-		 */
-		
-		// Divido por 1000 para obter em litros, em detrimento de ml
-		return (mets * 3.5) * peso / 1000 * 5;
-	}
 	
 	/**
 	 * String formatada com todos os dados da Corrida

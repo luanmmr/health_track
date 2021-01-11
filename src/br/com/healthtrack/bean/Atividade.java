@@ -1,6 +1,8 @@
 package br.com.healthtrack.bean;
 
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Calendar;
 
 /**
@@ -37,6 +39,14 @@ public abstract class Atividade implements Serializable {
 		setUsuario(usr);
 		setRitmo(ritmo);
 	}
+	
+	public Atividade(int codigo, Calendar dataInicio, Calendar dataFim,
+			 		 RitmoAtividade ritmo) {
+	     setCodigo(codigo);
+		 setDataInicio(dataInicio);
+		 setDataFim(dataFim);
+		 setRitmo(ritmo);
+    }
 	
 	/**
 	 * Construtor com bloco de instruções vazio e sem parâmetros
@@ -150,6 +160,31 @@ public abstract class Atividade implements Serializable {
 	
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+	
+	protected double kcalPerdida(double mets, double peso) {
+		  /*
+		  * É utilizado a seguinte fórmula
+		  * (MET * 3,5) * Peso.Usuario * 5 (5 Kcal para cada litro de oxigênio consumido)
+		  * Obtenho assim o gasto calórico por minuto do usuário. Depois multiplico pelo
+		  * tempo em minutos que durou a atividade física, obtendo assim o total de kcal
+		  * perdida.
+		  * 
+		  */
+		  mets *= 3.5;
+		  double litrosOxigenio = mets * peso / 1000;
+		  double kcalPorMinuto = litrosOxigenio * 5;
+		  LocalTime hrInicio = LocalTime.of(getDataInicio().get(Calendar.HOUR_OF_DAY),
+				                            getDataInicio().get(Calendar.MINUTE), 
+				                            getDataInicio().get(Calendar.SECOND));
+		  
+		  LocalTime hrFim = LocalTime.of(getDataFim().get(Calendar.HOUR_OF_DAY),
+	              						 getDataFim().get(Calendar.MINUTE), 
+	              						 getDataFim().get(Calendar.SECOND));
+		  
+		  double tempoAtvMinutos = (Duration.between(hrInicio, hrFim).getSeconds()) / 60;
+		  
+		  return Double.parseDouble(String.format("%.2f", kcalPorMinuto * tempoAtvMinutos).replace(',', '.'));
 	}
 	
 	/**

@@ -201,7 +201,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	}
 	
 	@Override
-	public List<Atividade> listaAtividadesDia(int codigoCliente, Calendar data) {
+	public List<Atividade> listaAtividadesDia(Usuario usr, Calendar data) {
 		List<Atividade> lista = new ArrayList<Atividade>();
 		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 		String dia = f.format(data.getTime());
@@ -243,11 +243,11 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 			pstmt = conexao.prepareStatement(sql);
 			pstmt.setString(1, dia);
 			pstmt.setString(2, diaLimite);
-			pstmt.setInt(3, codigoCliente);
+			pstmt.setInt(3, usr.getCodigo());
 			rs = pstmt.executeQuery();
 					  
 			while(rs.next()) {
-			  lista.add(getAtividade(rs, atv));
+			  lista.add(getAtividade(rs, atv, usr));
 			}
 		  }
 			
@@ -263,7 +263,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		    
+		    data.add(Calendar.DATE, -1);
 		}
 		return lista;
 		
@@ -296,7 +296,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	}
 	
 	@Override
-	public Atividade buscar(int codigoAtividade, String atividade) {
+	public Atividade buscar(int codigoAtividade, String atividade, Usuario usr) {
 	  Atividade atv = null;
 	  PreparedStatement pstmt = null;
 	  ResultSet rs = null;
@@ -334,7 +334,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	    rs = pstmt.executeQuery();
 	    
 	    if (rs.next()) {
-	      atv = getAtividade(rs, atividade);
+	      atv = getAtividade(rs, atividade, usr);
 	    }
 	    
 	  } catch (SQLException e) {
@@ -344,7 +344,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 
 	}
 	
-	private Atividade getAtividade(ResultSet rs, String atv) {
+	private Atividade getAtividade(ResultSet rs, String atv, Usuario usr) {
 		Calendar dataInicio = Calendar.getInstance();
 		Calendar dataFim = Calendar.getInstance();
 		Atividade atividade = null;
@@ -355,28 +355,28 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		  
 		  switch (atv) {
 		  case "caminhada" :
-		    atividade = new Caminhada(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, null, 
+		    atividade = new Caminhada(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, usr, 
 		    				rs.getDouble("VL_DISTANCIA"), new RitmoAtividade(rs.getInt("CD_RITMO"), 
 		    				rs.getString("NM_RITMO")));
 		    atividade.setTitulo(StringUtils.capitalize(atv));
 		    break;
 		  
 		  case "corrida" :
-			atividade = new Corrida(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, null, 
+			atividade = new Corrida(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, usr, 
 	    				rs.getDouble("VL_DISTANCIA"), new RitmoAtividade(rs.getInt("CD_RITMO"), 
 	    				rs.getString("NM_RITMO")));
 			atividade.setTitulo(StringUtils.capitalize(atv));
 			break;
 		  
 		  case "ciclismo" :
-			atividade = new Ciclismo(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, null, 
+			atividade = new Ciclismo(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, usr, 
 	    							 rs.getDouble("VL_DISTANCIA"), new RitmoAtividade(rs.getInt("CD_RITMO"), 
 	    							 rs.getString("NM_RITMO")));
 			atividade.setTitulo(StringUtils.capitalize(atv));
 			break;
 		  
 		  case "natacao" :
-			atividade = new Natacao(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, null,
+			atividade = new Natacao(rs.getInt("CD_ATIVIDADE"), dataInicio, dataFim, usr,
 					                new EstiloNatacao(rs.getInt("CD_ESTILO"), rs.getString("NM_ESTILO")), 
 									new RitmoAtividade(rs.getInt("CD_RITMO"), rs.getString("NM_RITMO")));
 			atividade.setTitulo(StringUtils.capitalize(atv));

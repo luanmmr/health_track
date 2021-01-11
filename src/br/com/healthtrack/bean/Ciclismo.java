@@ -31,6 +31,12 @@ public class Ciclismo extends Atividade implements DistanciaPercorrida {
 		calcularKcalPerdida();
 	}
 	
+	public Ciclismo(int codigo, Calendar dataInicio, Calendar dataFim,
+	 		         double distancia, RitmoAtividade ritmo) {
+		super(codigo, dataInicio, dataFim, ritmo);
+		setDistancia(distancia);
+	}
+	
 	/**
 	 * Construtor com bloco de instruções vazio e sem parâmetros
 	 */
@@ -62,37 +68,28 @@ public class Ciclismo extends Atividade implements DistanciaPercorrida {
 	 */
 	@Override
 	public void calcularKcalPerdida() {	
-		/*if (getRitmo() == "Leve") {
-			setKcalPerdida(kcalPerdidaMinuto(6, getUsuario().getPeso().getPeso()));
-		}else if(getRitmo() == "Moderado") {
-			setKcalPerdida(kcalPerdidaMinuto(10, getUsuario().getPeso().getPeso()));
-		}else {
-			setKcalPerdida(kcalPerdidaMinuto(16, getUsuario().getPeso().getPeso()));
-		}*/
-	}
-	
-	private double kcalPerdidaMinuto(double mets, double peso) {
-		/*
-		 * Fonte
-		 * http://www.cdof.com.br/MET_compendium.pdf
-		 * 
-		 * Ciclismo Leve
-		 * Até 19,2 km/h = MET 6
-         * Ciclismo Moderado
-         * De 19,2 km/h até 25,6 km/h = MET 10
-         * Ciclismo Intenso
-         * De 25,6 km/h até 32,2 km/h = MET 16
-         * 
-		 * É utilizado a seguinte fórmula
-		 * (MET * 3,5) * Peso.Usuario * 5 (5 Kcal para cada litro de oxigênio consumido)
-		 * Obtenho assim o gasto calórico por minuto do usuário. Depois multiplico pelo
-		 * tempo em minutos que durou a atividade física, obtendo assim o total de kcal
-		 * perdida.
-		 * 
-		 */
-		
-		// Divido por 1000 para obter em litros, em detrimento de ml
-		return (mets * 3.5) * peso / 1000 * 5;
+	  /*
+	  * Fonte
+	  * http://www.cdof.com.br/MET_compendium.pdf
+	  * 
+	  * Ciclismo Leve
+	  * Até 19,2 km/h = MET 6
+      * Ciclismo Moderado
+      * De 19,2 km/h até 25,6 km/h = MET 10
+      * Ciclismo Intenso
+      * De 25,6 km/h até 32,2 km/h = MET 16
+      * 
+      */
+	  if (getRitmo().getCodigo() == 1) {
+	    setKcalPerdida(kcalPerdida(6, getUsuario().getPeso()));
+		    
+	  }else if(getRitmo().getCodigo() == 2) {
+	    setKcalPerdida(kcalPerdida(10, getUsuario().getPeso()));
+			
+	  }else {
+	    setKcalPerdida(kcalPerdida(16, getUsuario().getPeso()));
+	    
+	  }
 	}
 	
 	/**

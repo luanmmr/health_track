@@ -109,9 +109,18 @@ public class AtividadeServlet extends HttpServlet {
 	private void listar(HttpServletRequest request, HttpServletResponse response, Usuario usuario, 
 			Calendar data) throws ServletException, IOException {
       
+	  List<Atividade> lista = dao.listaAtividadesDia(usuario, data);
+	  double gastoCaloricoTotal = 0;
+	  
 	  SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 	  request.getSession().setAttribute("dtExibidaAtv", f.format(data.getTime()));
-      request.setAttribute("listaAtividades", dao.listaAtividadesDia(usuario.getCodigo(), data));
+      request.setAttribute("listaAtividades", lista);
+      
+      for (Atividade atv : lista) {
+    	  gastoCaloricoTotal += atv.getKcalPerdida();
+      }
+      request.setAttribute("gastoCaloricoTotal", gastoCaloricoTotal);
+      
 	  request.getRequestDispatcher("atividades.jsp").forward(request, response);
 
 	}
@@ -127,8 +136,8 @@ public class AtividadeServlet extends HttpServlet {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		Calendar dataInicio = Calendar.getInstance();
 		Calendar dataFim = Calendar.getInstance();
-		int idEstiloNatacao = Integer.parseInt(request.getParameter("estilo-natacao"));
-		double distancia = Double.parseDouble(request.getParameter("distancia"));
+		double distancia;
+		int idEstiloNatacao;
 
 		try {
 		  dataInicio.setTime(f.parse(request.getParameter("dt-inicio")));
@@ -136,21 +145,25 @@ public class AtividadeServlet extends HttpServlet {
 		  
 		  switch (atividade) {
 		  case "caminhada":
+			  distancia = Double.parseDouble(request.getParameter("distancia"));
 			  dao.cadastrar(new Caminhada(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
 					  					  distancia, new RitmoAtividade(idRitmo)));
 			  break;
 		  
 		  case "corrida":
+			  distancia = Double.parseDouble(request.getParameter("distancia"));
 			  dao.cadastrar(new Corrida(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
 					  					distancia, new RitmoAtividade(idRitmo)));
 			  break;
 		  
 		  case "ciclismo":
+			  distancia = Double.parseDouble(request.getParameter("distancia"));
 			  dao.cadastrar(new Ciclismo(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
 					  					 distancia, new RitmoAtividade(idRitmo)));
 			  break;
 		  
 		  case "natacao":
+			  idEstiloNatacao = Integer.parseInt(request.getParameter("estilo-natacao"));
 			  dao.cadastrar(new Natacao(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
 					  					new EstiloNatacao(idEstiloNatacao), new RitmoAtividade(idRitmo)));
 			  break;
@@ -174,24 +187,26 @@ public class AtividadeServlet extends HttpServlet {
 	private void editar(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("user");
 		int idAtv = Integer.parseInt(request.getParameter("id"));
 		String atv = request.getParameter("atividade");
 		
 		switch(atv) {
 		case "caminhada" :
-		  request.setAttribute("editarAtividade", (Caminhada) dao.buscar(idAtv, atv));
+		  request.setAttribute("editarAtividade", (Caminhada) dao.buscar(idAtv, atv, usuario));
 		  break;
 		
 		case "corrida" :
-		  request.setAttribute("editarAtividade", (Corrida) dao.buscar(idAtv, atv));
+		  request.setAttribute("editarAtividade", (Corrida) dao.buscar(idAtv, atv, usuario));
 		  break;
 		
 		case "ciclismo" :
-		  request.setAttribute("editarAtividade", (Ciclismo) dao.buscar(idAtv, atv));
+		  request.setAttribute("editarAtividade", (Ciclismo) dao.buscar(idAtv, atv, usuario));
 		  break;
 		
 		case "natacao" :
-		  request.setAttribute("editarAtividade", (Natacao) dao.buscar(idAtv, atv));
+		  request.setAttribute("editarAtividade", (Natacao) dao.buscar(idAtv, atv, usuario));
 		  break;
 		  
 		}
@@ -219,19 +234,19 @@ public class AtividadeServlet extends HttpServlet {
 		  
 		  switch(atv) {	
 		  case "caminhada" :
-		    dao.update(new Caminhada(idAtv, dataInicio, dataFim, null,
+		    dao.update(new Caminhada(idAtv, dataInicio, dataFim,
 		    		                 Double.parseDouble(request.getParameter("distancia")), 
 		    		                 new RitmoAtividade(idRitmo)));
 		    break;
 		  
 		  case "ciclismo" :
-		    dao.update(new Ciclismo(idAtv, dataInicio, dataFim, null,
+		    dao.update(new Ciclismo(idAtv, dataInicio, dataFim,
 		    		                 Double.parseDouble(request.getParameter("distancia")), 
 		    		                 new RitmoAtividade(idRitmo)));
 		    break;
 		  
 		  case "corrida" :
-		    dao.update(new Corrida(idAtv, dataInicio, dataFim, null,
+		    dao.update(new Corrida(idAtv, dataInicio, dataFim,
 		    		                 Double.parseDouble(request.getParameter("distancia")), 
 		    		                 new RitmoAtividade(idRitmo)));
 		    break;

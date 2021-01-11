@@ -59,36 +59,15 @@ public class Natacao extends Atividade {
 	 */
 	@Override
 	public void calcularKcalPerdida() {	
-		/*if (getEstilo() == "Nado Peito") {
-			setKcalPerdida(kcalPerdidaMinuto(10, getUsuario().getPeso().getPeso()));
-		}else if(getEstilo() == "Nado Costas") {
-			setKcalPerdida(kcalPerdidaMinuto(7, getUsuario().getPeso().getPeso()));
-		}else if(getEstilo() == "Borboleta") {
-			setKcalPerdida(kcalPerdidaMinuto(11, getUsuario().getPeso().getPeso()));
-		}else if(getEstilo() == "Voltas") {
-			if(getRitmo() == "Leve" || getRitmo() == "Moderado") {
-				setKcalPerdida(kcalPerdidaMinuto(7, getUsuario().getPeso().getPeso()));
-			}else {
-				setKcalPerdida(kcalPerdidaMinuto(10, getUsuario().getPeso().getPeso()));
-			}
-		}*/
-	}
-	
-	private double kcalPerdidaMinuto(double mets, double peso) {
-		/*
-		 * Fonte
-		 * http://www.cdof.com.br/MET_compendium.pdf
-         * 
-		 * É utilizado a seguinte fórmula
-		 * (MET * 3,5) * Peso.Usuario * 5 (5 Kcal para cada litro de oxigênio consumido)
-		 * Obtenho assim o gasto calórico por minuto do usuário. Depois multiplico pelo
-		 * tempo em minutos que durou a atividade física, obtendo assim o total de kcal
-		 * perdida.
-		 * 
-		 */
-		
-		// Divido por 1000 para obter em litros, em detrimento de ml
-		return (mets * 3.5) * peso / 1000 * 5;
+		if (getEstilo().getCodigo() == 1) {
+			setKcalPerdida(kcalPerdida(11, getUsuario().getPeso()));
+			
+		}else if(getEstilo().getCodigo() == 2) {
+			setKcalPerdida(kcalPerdida(10, getUsuario().getPeso()));
+			
+		}else if(getEstilo().getCodigo() == 3) {
+			setKcalPerdida(kcalPerdida(7, getUsuario().getPeso()));
+		}
 	}
 	
 	/**
