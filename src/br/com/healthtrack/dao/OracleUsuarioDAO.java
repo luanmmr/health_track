@@ -22,7 +22,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 	public void cadastrar(Usuario usuario) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO t_htk_usuario "
-				   + "VALUES (SQ_HTK_USUARIO.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				   + "VALUES (SQ_HTK_USUARIO.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		
@@ -31,7 +31,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 			
 			pstmt.setString(1, usuario.getNome());
 			pstmt.setString(2, usuario.getSobrenome());
-			pstmt.setString(3, usuario.getEmail());
+			pstmt.setString(3, usuario.getEmail().toLowerCase());
 			pstmt.setString(4, usuario.getSenha());
 			java.sql.Date data = new java.sql.Date(usuario.getDataNascimento().getTimeInMillis());
 			pstmt.setDate(5, data);
@@ -40,6 +40,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 			pstmt.setInt(8, usuario.getSistolica());
 			pstmt.setInt(9, usuario.getDiastolica());
 			pstmt.setDouble(10, usuario.getImc());
+			pstmt.setInt(11, usuario.getMetaGastoCalorico());
 			pstmt.executeUpdate();
 			
 			registrosPosCadastro(usuario);
@@ -64,7 +65,8 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 	public void atualizar(Usuario usuario) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE t_htk_usuario SET NM_USUARIO = ?, NM_SOBRENOME = ?, DS_EMAIL = ?, "
-				   + "PWD_SENHA = ?, DT_NASCIMENTO = ? WHERE CD_USUARIO = ?";
+				   + "PWD_SENHA = ?, DT_NASCIMENTO = ?, VL_META_KCAL = ? "
+				   + "WHERE CD_USUARIO = ?";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		
@@ -73,11 +75,12 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 			
 			pstmt.setString(1, usuario.getNome());
 			pstmt.setString(2, usuario.getSobrenome());
-			pstmt.setString(3, usuario.getEmail());
+			pstmt.setString(3, usuario.getEmail().toLowerCase());
 			pstmt.setString(4, usuario.getSenha());
 			java.sql.Date data = new java.sql.Date(usuario.getDataNascimento().getTimeInMillis());
-			pstmt.setDate(5, data);	
-			pstmt.setInt(6, usuario.getCodigo());
+			pstmt.setDate(5, data);
+			pstmt.setInt(6, usuario.getMetaGastoCalorico());
+			pstmt.setInt(7, usuario.getCodigo());
 	
 			pstmt.executeUpdate();
 			
@@ -107,7 +110,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 		
 		try {
 			pstmt = conexao.prepareStatement(sql);
-			pstmt.setString(1, email);
+			pstmt.setString(1, email.toLowerCase());
 			pstmt.setString(2, CriptografiaSenha.criptografar(senha));
 			rs = pstmt.executeQuery();
 			
@@ -151,7 +154,8 @@ public class OracleUsuarioDAO implements UsuarioDAO {
           usuario = new Usuario(rs.getInt("CD_USUARIO"), rs.getString("NM_USUARIO"), 
         		  rs.getString("NM_SOBRENOME"), email, rs.getString("PWD_SENHA"), data, 
         		  rs.getDouble("VL_ALTURA"), rs.getDouble("VL_PESO"), 
-        		  rs.getInt("VL_SISTOLICA"), rs.getInt("VL_DIASTOLICA"));
+        		  rs.getInt("VL_SISTOLICA"), rs.getInt("VL_DIASTOLICA"),
+        		  rs.getInt("VL_META_KCAL"));
         }
         
       } catch (SQLException e) {

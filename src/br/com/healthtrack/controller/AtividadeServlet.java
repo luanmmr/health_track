@@ -111,15 +111,22 @@ public class AtividadeServlet extends HttpServlet {
       
 	  List<Atividade> lista = dao.listaAtividadesDia(usuario, data);
 	  double gastoCaloricoTotal = 0;
+	  String porcentagemMeta = "";
 	  
+	  // Data das atividades
 	  SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 	  request.getSession().setAttribute("dtExibidaAtv", f.format(data.getTime()));
       request.setAttribute("listaAtividades", lista);
       
+      // Total Calorias perdidas
       for (Atividade atv : lista) {
     	  gastoCaloricoTotal += atv.getKcalPerdida();
       }
-      request.setAttribute("gastoCaloricoTotal", gastoCaloricoTotal);
+      request.setAttribute("gastoCaloricoTotal", String.format("%.2f", gastoCaloricoTotal));
+      
+      // Meta Gasto Calorico
+      porcentagemMeta = String.format("%.0f", gastoCaloricoTotal / usuario.getMetaGastoCalorico() * 100);
+      request.setAttribute("porcentagemMeta", porcentagemMeta);
       
 	  request.getRequestDispatcher("atividades.jsp").forward(request, response);
 

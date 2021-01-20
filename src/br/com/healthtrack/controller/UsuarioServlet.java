@@ -86,7 +86,8 @@ public class UsuarioServlet extends HttpServlet {
 					  Double.parseDouble(request.getParameter("altura")), 
 					  Double.parseDouble(request.getParameter("peso")), 
 					  Integer.parseInt(request.getParameter("sistolica")), 
-					  Integer.parseInt(request.getParameter("diastolica"))));
+					  Integer.parseInt(request.getParameter("diastolica")),
+					  Integer.parseInt(request.getParameter("meta-gasto-kcal"))));
 			  
 			  request.setAttribute("msgSucesso", "Usuário criado!");
 		    
@@ -128,6 +129,7 @@ public class UsuarioServlet extends HttpServlet {
 		  Calendar data = Calendar.getInstance();
 		  data.setTime(format.parse(request.getParameter("data")));
 		  usuario.setDataNascimento(data);
+		  usuario.setMetaGastoCalorico(Integer.parseInt(request.getParameter("meta-gasto-kcal")));
 		  
 		  dao.atualizar(usuario);
 		  

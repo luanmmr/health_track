@@ -88,6 +88,11 @@
                                 value='<fmt:formatDate pattern="yyyy-mm-dd" 
                                                        value="${ user.dataNascimento.time }" />' required>
                        </div>
+                       <div class="form-group col-md-6">
+                        <label for="meta-gasto-kcal" class="label-custom">Meta Gasto Calórico (dia)</label>
+                         <input type="number" name="meta-gasto-kcal" class="form-control input-custom" 
+                                value="${ user.metaGastoCalorico }" required>
+                       </div>
                     </div>
                        
                         

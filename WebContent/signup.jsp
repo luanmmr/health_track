@@ -50,42 +50,53 @@
 	                       <input type="password" name="senha" class="form-control input-custom" required>
 	                     </div>  
                     </div>
-                       
-                    <div class="form-row">       
-	                     <div class="col-md-6">
+										
+										<div class="form-row">
+										   <div class="col-md-6">
 	                       <label for="data" class="label-custom">Data de Nasc:</label>
 	                        <input type="date" name="data" class="form-control input-custom" required>
-	                      </div>
-	                        
-	                     <div class="col-md-3">
-	                       <label for="peso" class="label-custom">Peso:</label>
-	                        <input type="text" name="peso" class="form-control input-custom" required>
-	                      </div>
-	                      
-	                      <div class="col-md-3">
-	                       <label for="altura" class="label-custom">Altura:</label>
-	                        <input type="text" name="altura" class="form-control input-custom" required>
-	                      </div>                             
-                     </div>
-                       
-                        
-                     <div class="form-row">       
-	                      <div class="col-md-6">
-	                        <label for="sistolica" class="label-custom">Sistólica:</label>
-	                         <input type="number" value="0" name="sistolica" 
-	                              class="form-control input-custom">
 	                       </div>
-	                         
-	                      <div class="col-md-6">
-	                        <label for="diastolica" class="label-custom">Diastólica:</label>
-	                         <input type="number" value="0" name="diastolica" 
-	                              class="form-control input-custom">
-	                       </div> 
 	                       
-	                       <div class="col-md-12" style="margin-top: 5px">
+                      	<div class="col-md-6">
+                          <label for="meta-gasto-kcal" class="label-custom">Meta Gasto Calórico (dia)</label>
+	                         <input type="number" value="0" name="meta-gasto-kcal" 
+	                                class="form-control input-custom">
+                         </div>
+                   </div>
+										
+                    <div class="form-row">
+                    
+                    	<div class="col-md-3">
+                       <label for="peso" class="label-custom">Peso:</label>
+                        <input type="text" name="peso" class="form-control input-custom" required>
+                      </div>
+                      
+                      <div class="col-md-3">
+                       <label for="altura" class="label-custom">Altura:</label>
+                        <input type="text" name="altura" class="form-control input-custom" required>
+                      </div>     
+	                      
+                      <div class="col-md-3">
+                        <label for="sistolica" class="label-custom">Sistólica:</label>
+                         <input type="number" value="0" name="sistolica" 
+                              class="form-control input-custom">
+                       </div>
+                         
+                      <div class="col-md-3">
+                        <label for="diastolica" class="label-custom">Diastólica:</label>
+                         <input type="number" value="0" name="diastolica" 
+                              class="form-control input-custom">
+                       </div> 
+
+                     </div>
+                      
+                     
+                      
+                      <div class="form-row">  
+                      	<div class="col-md-4" style="margin-top: 5px">
                           <label class="label-custom"></label>
                            <input class="btn btn-md btn-primary" type="submit" value="Criar">
-                         </div>                            
+                         </div>   
                       </div>
                   <br>
                 </form>

@@ -9,11 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import org.apache.tomcat.dbcp.dbcp2.SQLExceptionList;
-
 import com.sun.xml.internal.ws.util.StringUtils;
-
 import br.com.healthtrack.bean.Alimento;
 import br.com.healthtrack.bean.Atividade;
 import br.com.healthtrack.bean.Caminhada;

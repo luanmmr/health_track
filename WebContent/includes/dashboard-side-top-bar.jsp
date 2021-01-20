@@ -42,7 +42,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" >
+                <a class="nav-link collapsed" href="alimentacao.jsp" >
                     <i class="fas fa-fw fa-apple-alt"></i>
                     <span>Alimentação</span>
                 </a>

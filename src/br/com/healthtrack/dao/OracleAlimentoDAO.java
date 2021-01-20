@@ -11,6 +11,7 @@ import java.util.List;
 import br.com.healthtrack.bean.Alimento;
 import br.com.healthtrack.bean.GrupoAlimento;
 import br.com.healthtrack.bean.Medida;
+import br.com.healthtrack.exception.DBException;
 import br.com.healthtrack.singleton.ConnectionManager;
 
 public class OracleAlimentoDAO implements AlimentoDAO {
@@ -18,7 +19,7 @@ public class OracleAlimentoDAO implements AlimentoDAO {
 	private Connection conexao;
 	
 	@Override
-	public void cadastrar(Alimento alimento) {
+	public void cadastrar(Alimento alimento) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO t_htk_alimento "
 				   + "VALUES (SQ_HTK_ALIMENTO.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -52,6 +53,8 @@ public class OracleAlimentoDAO implements AlimentoDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DBException("Erro ao cadastrar alimento");
+			
 		} finally {
 			try {
 				pstmt.close();

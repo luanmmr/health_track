@@ -26,5 +26,13 @@ public class DAOFactory {
 	public static UsuarioDAO getUsuarioDAO() {
 		return new OracleUsuarioDAO();
 	}
+	
+	public static GrupoAlimentoDAO getGrupoAlimentoDAO() {
+		return new OracleGrupoAlimentoDAO();
+	}
+	
+	public static MedidaDAO getMedidaDAO() {
+		return new OracleMedidaDAO();
+	}
 
 }

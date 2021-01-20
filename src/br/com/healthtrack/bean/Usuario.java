@@ -25,6 +25,7 @@ public class Usuario {
 	private int sistolica;
 	private int diastolica;
 	private double imc;
+	private int metaGastoCalorico;
 		
 	/**
 	 * Construtor
@@ -37,7 +38,8 @@ public class Usuario {
 	 * @param pressaoArterial Pressão Arterial
 	 */
 	public Usuario(int codigo, String nome, String sobrenome, String email, String senha, 
-				  Calendar dateNascimento, double altura, double peso, int sistolica, int diastolica) {
+				  Calendar dateNascimento, double altura, double peso, int sistolica, int diastolica,
+				  int metaGastoCalorico) {
 		setCodigo(codigo);
 		setNome(nome);
 		setSobrenome(sobrenome);
@@ -47,6 +49,7 @@ public class Usuario {
 		setAltura(altura);
 		setPeso(peso);
 		setPressaoArterial(sistolica, diastolica);
+		setMetaGastoCalorico(metaGastoCalorico);
 	}
 	
 	public Usuario(int codigo) {
@@ -220,6 +223,13 @@ public class Usuario {
 		return String.format("%d/%d", getSistolica(), getDiastolica());
 	}
 	
+	public void setMetaGastoCalorico(int valor) {
+		this.metaGastoCalorico = valor;
+	}
+	
+	public int getMetaGastoCalorico() {
+		return metaGastoCalorico;
+	}
 	/**
 	 * Define a o IMC do usuário
 	 * Calcula o IMC do usuário toda vez em que é feito qualquer alteração no peso do usuário

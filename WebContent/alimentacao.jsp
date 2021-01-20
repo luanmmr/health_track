@@ -1,32 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-  pageEncoding="utf-8" %>
+  		   pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Luan Ribeiro">
-  <title>Atividades</title>
-  <%@ include file="includes/dashboard-style.jsp" %>
-</head>
-
-<body id="page-top">
-  <%@ include file="includes/dashboard-side-top-bar.jsp" %>
+	<head>
+		<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	<meta name="description" content="">
+  	<meta name="author" content="Luan Ribeiro">
+  	<title>Alimentação</title>
+  	<%@ include file="includes/dashboard-style.jsp" %>
+	</head>
+	
+	<body id="page-top">
+		<%@ include file="includes/dashboard-side-top-bar.jsp" %>
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
 
-            <h1 class="h3 mb-2 text-gray-800">Atividades</h1>
-            <p class="mb-4">Aqui te atualizaremos como estão suas atividades no dia. Portanto, os dados estão embasados em sua
-              meta de gasto calórico, na quantidade de calorias perdidas até o momento e nas atividades realizadas no dia.
+            <h1 class="h3 mb-2 text-gray-800">Alimentação</h1>
+            <p class="mb-4">Registros de sua alimentação no dia.
             </p>
 
         
@@ -110,15 +108,15 @@
             <div class="card shadow mb-4">
               <div class="card-header py-3 space-title-button">
                   <h6 class="m-0 font-weight-bold text-primary">
-                    Atividades Realizadas
+                    Alimentos Ingeridos
                   </h6>
                   
                   <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" 
-                     data-target="#addAtividade">
+                     data-target="#addAlimentacao">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                     </span>
-                    <span class="text">Atividade</span>
+                    <span class="text">Adicionar</span>
                   </a>
                   
               </div>
@@ -147,11 +145,11 @@
                    <table class="table table-striped">
                        <thead style="background-color: #1cc88a; color: white;">
                            <tr>
-                               <th>Atividade</th>
-                               <th>Intensidade</th>
-                               <th>Início</th>
-                               <th>Fim</th>
-                               <th>Gasto Calórico</th>
+                               <th>Alimento</th>
+                               <th>Período</th>
+                               <th>Data</th>
+                               <th>Quantidade</th>
+                               <th>Total Kcal</th>
                                <th></th>
                                <th></th>
               
@@ -172,7 +170,7 @@
                                  <fmt:formatDate type="both" value="${ atividade.dataFim.time }"/>
                                </td>
                                <td>${ atividade.kcalPerdida}</td>
-                               <td><a href="atividades?action=editar&atividade=${ fn:toLowerCase(atividade.titulo) }&id=${ atividade.codigo }">
+                               <td><a href="atividades?action=editar&atividade&id=${ atividade.codigo }">
                                				<i class="fas fa-edit"></i>
                                		 </a>
                                </td>
@@ -193,7 +191,7 @@
                </div>
                </c:if>
                <c:if test="${ empty listaAtividades }">
-               	<p>Nenhuma atividade registrada nesse dia.</p>
+               	<p>Nenhuma alimentação registrada nesse dia.</p>
                </c:if>
                
               </div>
@@ -205,11 +203,11 @@
         <div class="row">
           <div class="col-lg-12 mb-4">
                   <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" 
-                     data-target="#addAtividade">
+                     data-target="#addAlimentacao">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                     </span>
-                    <span class="text">Atividade</span>
+                    <span class="text">Adicionar</span>
                   </a>
           </div>
         </div>
@@ -228,12 +226,12 @@
     <%@ include file="includes/modal-logout.jsp" %>
     
 		<!-- Logout Modal-->
-		<div class="modal fade" id="addAtividade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		<div class="modal fade" id="addAlimentacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 		    aria-hidden="true">
 		    <div class="modal-dialog" role="document">
 		        <div class="modal-content" style="border-radius: 8px;">
 		            <div class="modal-header">
-		                <h5 class="modal-title" id="exampleModalLabel">Registrar nova atividade</h5>
+		                <h5 class="modal-title" id="exampleModalLabel">Registrar Alimentação</h5>
 		                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
 		                    <span aria-hidden="true">X</span>
 		                </button>
@@ -243,10 +241,16 @@
 		              <form action="atividades" method="post">
                     <input type="hidden" name="action" value="cadastrar">
                     
+                    <div class="form-row">
+	                     <div class="mb-3 col-md-12">
+	                        Se não encontrar o alimento, <a href="alimentos?action=cadastrar">clique aqui</a> para adicionar.
+	                     </div>
+                    </div>
+                    
 	                  <div class="form-row">
-	                     <div class="input-group mb-3 col-md-6">
+	                     <div class="input-group mb-3 col-md-12">
 	                        <div class="input-group-prepend">
-	                            <label class="input-group-text">Atividade</label>
+	                            <label class="input-group-text">Alimento</label>
 	                        </div>
 	                        <select id="atv" name="atividade" class="custom-select" required>
 	                            <option value="" selected>Selecione...</option>
@@ -256,58 +260,35 @@
 	                            <option value="natacao">Natação</option>
 	                        </select>
 	                     </div>
-                      
-	                      <div class="input-group mb-3 col-md-6">
-	                         <div class="input-group-prepend">
-	                             <label class="input-group-text" for="ritmoAtividade">Ritmo</label>
-	                         </div>
-	                         <select name="ritmo" class="custom-select" id="ritmoAtividade" 
-	                         				 data-toggle="tooltip" data-placement="top" data-html="true"
-	                         				 title="texto" required>
-	                             <option value="" selected>Selecione...</option>
-	                             <option value="1">Leve</option>
-	                             <option value="2">Moderado</option>
-	                             <option value="3">Intenso</option>
-	                         </select>
-	                      </div>
                     </div>
-                   
+                    
+                     <div class="form-row">
+	                     <div class="input-group mb-3 col-md-8">
+	                        <div class="input-group-prepend">
+	                            <label class="input-group-text">Período</label>
+	                        </div>
+	                        <select id="atv" name="atividade" class="custom-select" required>
+	                            <option value="" selected>Selecione...</option>
+	                            <option value="caminhada">Caminhada</option>
+	                            <option value="corrida">Corrida</option>
+	                            <option value="ciclismo">Ciclismo</option>
+	                            <option value="natacao">Natação</option>
+	                        </select>
+	                     </div>
+                    </div>
+                    
                     <div class="form-row">       
-                      <div class="form-group col-md-6">
-                        <label for="dt-inicio" class="label-custom">Início:</label>
-                         <input type="datetime-local" name="dt-inicio" step="1" class="form-control input-custom" 
-                         	      value="${ dtExibidaAtv }T00:00:00" required>
+                      <div class="form-group col-md-5">
+                        <label for="dt-inicio" class="label-custom">Data:</label>
+                         <input type="date" name="dt-inicio" step="1" class="form-control input-custom" 
+                         	      value="" required>
                        </div>
                          
-                       <div class="form-group col-md-6">
-                        <label for="dt-fim" class="label-custom">Fim:</label>
-                         <input type="datetime-local" name="dt-fim" step="1" class="form-control input-custom" 
-                         	      value="${ dtExibidaAtv }T00:00:00" required>
+                       <div class="form-group col-md-2">
+                        <label for="dt-fim" class="label-custom">Quant.:</label>
+                         <input type="number" name="dt-fim" step="1" class="form-control input-custom" 
+                         	      required>
                        </div>  
-                    </div>
-     
-                     
-                   <div class="form-row" >    
-	                   <div class="form-group col-md-6" id="estilo-ntc" style="display:none">
-	                   		<br>
-	                      <div class="input-group mb-3">
-	                        <div class="input-group-prepend">
-	                            <label class="input-group-text" for="inputGroupSelect02">Estilo</label>
-	                        </div>
-	                        <select id="estilo-natacao" name="estilo-natacao" class="custom-select" id="inputGroupSelect02">
-	                            <option value="" selected>Selecione...</option>
-	                            <option value="1">Borboleta</option>
-	                            <option value="2">Peito</option>
-	                            <option value="3">Costas</option>
-	                        </select>
-	                      </div>
-	                   </div>
-                      
-                      <div class="form-group col-md-6" id="dtc" style="display:none">
-                        <label for="distancia" class="label-custom">Distância em KM:</label>
-                        <input type="number" step="0.01" id="distancia" name="distancia" class="form-control input-custom" 
-                               placeholder="Ex: 12,5">
-                      </div>                             
                     </div>
                     
                     <div class="modal-footer">
@@ -321,8 +302,7 @@
 		        </div>
 		    </div>
 		</div>
-    
-
-  	<%@ include file="includes/atividades-js.jsp" %>
+		
+		<%@ include file="includes/alimentacao-js.jsp" %>
 	</body>
 </html>
