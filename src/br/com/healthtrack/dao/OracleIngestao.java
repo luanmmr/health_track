@@ -6,12 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import br.com.healthtrack.bean.Alimento;
 import br.com.healthtrack.bean.Ingestao;
+import br.com.healthtrack.bean.Medida;
 import br.com.healthtrack.bean.PeriodoRefeicao;
 import br.com.healthtrack.bean.Usuario;
 import br.com.healthtrack.singleton.ConnectionManager;
@@ -163,6 +165,59 @@ public class OracleIngestao implements IngestaoDAO {
 		
 		return lista;
 			
+	}
+	
+	@Override
+	public List<Ingestao> listarDia(Usuario usuario, Calendar data) {
+		List<Ingestao> lista = new ArrayList<Ingestao>();
+		PreparedStatement pstmt = null;
+		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+		String dia = f.format(data.getTime());
+		data.add(Calendar.DATE, 1);
+		String diaLimite = f.format(data.getTime());
+		ResultSet rs = null;
+		String sql = "SELECT * FROM t_htk_ingestao "
+				   + "INNER JOIN t_htk_alimento ON (t_htk_ingestao.cd_alimento = t_htk_alimento.cd_alimento) "
+				   + "INNER JOIN t_htk_medida ON (t_htk_alimento.cd_medida = t_htk_medida.cd_medida) "
+				   + "INNER JOIN t_htk_usuario ON (t_htk_ingestao.cd_usuario = t_htk_usuario.cd_usuario) "
+				   + "INNER JOIN t_htk_periodo_refeicao ON (t_htk_ingestao.cd_periodo = t_htk_periodo_refeicao.cd_periodo) "
+				   + "WHERE (t_htk_ingestao.dt_ingestao >= ? AND t_htk_ingestao.dt_ingestao < ?) "
+				   + "AND t_htk_ingestao.cd_usuario = ? "
+				   + "ORDER BY t_htk_ingestao.cd_ingestao";
+		
+		conexao = ConnectionManager.getInstance().getConnection();
+		
+		try {
+		  pstmt = conexao.prepareStatement(sql);
+		  pstmt.setString(1, dia);
+		  pstmt.setString(2, diaLimite);
+		  pstmt.setInt(3, usuario.getCodigo());
+		  rs = pstmt.executeQuery();
+		  
+		  while (rs.next()) {
+			  Calendar dataIngestao = Calendar.getInstance();
+			  dataIngestao.setTimeInMillis(rs.getDate("dt_ingestao").getTime());
+			  PeriodoRefeicao periodo = new PeriodoRefeicao(0, rs.getString("ds_periodo"));
+			  Medida medida = new Medida(0, rs.getString("nm_abreviado"), rs.getString("nm_medida"));
+			  Alimento alimento = new Alimento(0, rs.getString("nm_alimento"), medida, rs.getDouble("vl_medida"), 
+					  						   rs.getDouble("vl_kcal"), null);
+			  lista.add(new Ingestao(0, null, alimento, periodo, dataIngestao, rs.getInt("vl_quantidade")));
+		  }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			data.add(Calendar.DATE, -1);
+			try {
+				pstmt.close();
+				conexao.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return lista;
 	}
 	
 	@Override

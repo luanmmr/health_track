@@ -1,7 +1,9 @@
 package br.com.healthtrack.dao;
 
+import java.util.Calendar;
 import java.util.List;
 import br.com.healthtrack.bean.Ingestao;
+import br.com.healthtrack.bean.Usuario;
 
 public interface IngestaoDAO {
 	
@@ -10,5 +12,6 @@ public interface IngestaoDAO {
 	void remover(int codigo);
 	Ingestao buscar(int codigo);
 	List<Ingestao> listar();
+	List<Ingestao> listarDia(Usuario usuario, Calendar data);
 
 }

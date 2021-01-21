@@ -205,7 +205,6 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		data.add(Calendar.DATE, 1);
 		String diaLimite = f.format(data.getTime());
 		String sql = null;
-
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String[] atvArray = { "caminhada", "corrida", "ciclismo", "natacao" };

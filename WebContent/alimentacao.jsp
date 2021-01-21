@@ -83,11 +83,11 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA DE INÍCIO</div>
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA</div>
                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                  <form action="atividades" method="get" id="form-data">
+                                  <form action="alimentacao" method="get" id="form-data">
                                     <input type="hidden" name="action" value="alterar-data">
-                                    <input type="date" value="${ dtExibidaAtv }" onchange="document.getElementById('form-data').submit();"
+                                    <input type="date" value="${ dtExibidaAli }" onchange="document.getElementById('form-data').submit();"
                                            name="data" class="input-date font-weight-bold text-gray-800 h5 mb-0 mr-3">
                                   </form>
                                 </div>
@@ -140,7 +140,7 @@
                   <br><br>
                 </c:if>
                 
-                <c:if test="${ not empty listaAtividades}">
+                <c:if test="${ not empty listaAlimentacao }">
                 <div class="table-responsive">
                    <table class="table table-striped">
                        <thead style="background-color: #1cc88a; color: white;">
@@ -157,19 +157,19 @@
                        </thead>
                        <tbody>
                            
-                        <c:forEach items="${ listaAtividades }" var="atividade">
+                        <c:forEach items="${ listaAlimentacao }" var="alimentacao">
                         
                            <tr>
-                               <td>${ atividade.titulo }</td>
-                               <td>${ atividade.ritmo.nomeRitmo}</td>
+                               <td>${ alimentacao.alimento.nome }</td>
+                               <td>${ alimentacao.periodoRefeicao.nomePeriodo}</td>
                                <td>
                                  <fmt:formatDate pattern="dd/MM/yyy HH:mm:ss" 
-                                                 value="${ atividade.dataInicio.time}"/>
+                                                 value="${ alimentacao.dataIngestao.time}"/>
                                </td>
                                <td>
-                                 <fmt:formatDate type="both" value="${ atividade.dataFim.time }"/>
+                                 ${ alimentacao.quantidade}
                                </td>
-                               <td>${ atividade.kcalPerdida}</td>
+                               <td>${ alimentacao.totalKcal}</td>
                                <td><a href="atividades?action=editar&atividade&id=${ atividade.codigo }">
                                				<i class="fas fa-edit"></i>
                                		 </a>
@@ -190,7 +190,7 @@
                    </table>
                </div>
                </c:if>
-               <c:if test="${ empty listaAtividades }">
+               <c:if test="${ empty listaAlimentacao }">
                	<p>Nenhuma alimentação registrada nesse dia.</p>
                </c:if>
                

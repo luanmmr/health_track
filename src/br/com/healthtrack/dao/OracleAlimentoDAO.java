@@ -5,12 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.healthtrack.bean.Alimento;
 import br.com.healthtrack.bean.GrupoAlimento;
 import br.com.healthtrack.bean.Medida;
+import br.com.healthtrack.bean.Usuario;
 import br.com.healthtrack.exception.DBException;
 import br.com.healthtrack.singleton.ConnectionManager;
 
@@ -161,7 +164,6 @@ public class OracleAlimentoDAO implements AlimentoDAO {
 	@Override
 	public List<Alimento> listar() {
 		List<Alimento> lista = new ArrayList<Alimento>();
-		Alimento alimento = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql = "SELECT * FROM t_htk_alimento "
@@ -180,10 +182,9 @@ public class OracleAlimentoDAO implements AlimentoDAO {
 				Medida medida = new Medida(rs.getInt("CD_MEDIDA"), rs.getString("NM_ABREVIADO"),
 										   rs.getString("NM_MEDIDA"));
 				GrupoAlimento grupoAlimento = new GrupoAlimento(rs.getInt("CD_GRUPO"), rs.getString("NM_GRUPO"));
-				alimento = new Alimento(rs.getInt("CD_ALIMENTO"), rs.getString("NM_ALIMENTO"), 
-										medida, rs.getDouble("VL_MEDIDA"), rs.getDouble("VL_KCAL"), 
-										grupoAlimento);
-				lista.add(alimento);
+				lista.add(new Alimento(rs.getInt("CD_ALIMENTO"), rs.getString("NM_ALIMENTO"), 
+									   medida, rs.getDouble("VL_MEDIDA"), rs.getDouble("VL_KCAL"), 
+									   grupoAlimento));
 			}
 			
 		} catch (SQLException e) {
