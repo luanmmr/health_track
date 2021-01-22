@@ -223,7 +223,8 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 			     + " INNER JOIN t_htk_atividade ON (t_htk_" + atv +".cd_atividade = t_htk_atividade.cd_atividade)"
 			     + " INNER JOIN t_htk_ritmo_atv ON (t_htk_atividade.cd_ritmo = t_htk_ritmo_atv.cd_ritmo)"
 			     + " WHERE (t_htk_atividade.dt_inicio >= ? AND t_htk_atividade.dt_inicio < ?)"
-			     + " AND t_htk_atividade.cd_usuario = ?";
+			     + " AND t_htk_atividade.cd_usuario = ?"
+			     + " ORDER BY t_htk_atividade.cd_atividade";
 			  break;
 			
 			case "natacao" :
@@ -232,7 +233,8 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		         + " INNER JOIN t_htk_ritmo_atv ON (t_htk_atividade.cd_ritmo = t_htk_ritmo_atv.cd_ritmo)"
 		         + " INNER JOIN t_htk_estilo_natacao ON (t_htk_" + atv + ".cd_estilo = t_htk_estilo_natacao.cd_estilo)"
 		         + " WHERE (t_htk_atividade.dt_inicio >= ? AND t_htk_atividade.dt_inicio < ?)"
-		         + " AND t_htk_atividade.cd_usuario = ?";
+		         + " AND t_htk_atividade.cd_usuario = ?"
+		         + " ORDER BY t_htk_atividade.cd_atividade";
 			  break;
 			}
 				  

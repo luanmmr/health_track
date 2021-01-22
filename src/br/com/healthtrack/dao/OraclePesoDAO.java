@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -117,23 +118,24 @@ public class OraclePesoDAO implements PesoDAO {
 	}
 	
 	@Override
-	public List<Peso> listar() {
+	public List<Peso> listarUsuario(Usuario usuario) {
 		List<Peso> lista = new ArrayList<Peso>();
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM t_htk_peso";
+		String sql = "SELECT * FROM t_htk_peso WHERE cd_usuario = ? ORDER BY cd_registro";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		
 		try {
-			stmt = conexao.createStatement();
-			rs = stmt.executeQuery(sql);
+			pstmt = conexao.prepareStatement(sql);
+			pstmt.setInt(1, usuario.getCodigo());
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				Calendar data = Calendar.getInstance();
 				data.setTimeInMillis(rs.getDate("DT_REGISTRO").getTime());
 				
-				lista.add(new Peso(rs.getInt("CD_REGISTRO"), new Usuario(rs.getInt("CD_USUARIO")), 
+				lista.add(new Peso(rs.getInt("CD_REGISTRO"), usuario, 
 								   data, rs.getDouble("VL_PESO")));
 			}
 			
@@ -141,14 +143,57 @@ public class OraclePesoDAO implements PesoDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				rs.close();
-				stmt.close();
+				pstmt.close();
 				conexao.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}	
+
+		return lista;		
+	}
+	
+	@Override
+	public List<Peso> listarUsuario(Usuario usuario, Calendar data) {
+		List<Peso> lista = new ArrayList<Peso>();
+		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+		String dia = f.format(data.getTime());
+		data.add(Calendar.DATE, 1);
+		String diaLimite = f.format(data.getTime());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM t_htk_peso "
+			       + "WHERE (dt_registro >= ? AND dt_registro < ?) AND (cd_usuario = ?) "
+		           + "ORDER BY cd_registro";
 		
+		conexao = ConnectionManager.getInstance().getConnection();
+		
+		try {
+			pstmt = conexao.prepareStatement(sql);
+			pstmt.setString(1, dia);
+			pstmt.setString(2, diaLimite);
+			pstmt.setInt(3, usuario.getCodigo());
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Calendar dataRegistro = Calendar.getInstance();
+				dataRegistro.setTimeInMillis(rs.getDate("DT_REGISTRO").getTime());
+				
+				lista.add(new Peso(rs.getInt("CD_REGISTRO"), usuario, 
+								   dataRegistro, rs.getDouble("VL_PESO")));
+			}
+			
+		} catch (SQLException e ) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conexao.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+
 		return lista;		
 	}
 	
