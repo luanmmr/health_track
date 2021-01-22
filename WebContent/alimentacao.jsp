@@ -39,7 +39,7 @@
 	                           <div class="col mr-2">
 	                               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 	                                   Gasto Calório</div>
-	                               <div class="h5 mb-0 font-weight-bold text-gray-800">${ gastoCaloricoTotal } kcal</div>
+	                               <div class="h5 mb-0 font-weight-bold text-gray-800">${ totalCaloriasAli } kcal</div>
 	                           </div>
 	                           <div class="col-auto">
 	                               <i class="fas fa-running fa-2x text-gray-300"></i>
@@ -48,34 +48,7 @@
 	                   </div>
 	               </div>
 	             </div>
-        
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Meta de Gasto Calórico
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${ porcentagemMeta }%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress">
-                                          <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
-                                               role="progressbar" aria-valuenow="${ porcentagemMeta }" aria-valuemin="0" aria-valuemax="100" 
-                                               style="width: ${ porcentagemMeta }%">
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                        </div>
-                    </div>
-                </div>
-            </div>
+     
             
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -172,15 +145,15 @@
                                  ${ alimentacao.quantidade}
                                </td>
                                <td>${ alimentacao.totalKcal}</td>
-                               <td><a href="atividades?action=editar&atividade&id=${ atividade.codigo }">
+                               <td><a href="#">
                                				<i class="fas fa-edit"></i>
                                		 </a>
                                </td>
                                <td>
-                               <form action="atividades" method="post" id="form-excluir-${ atividade.codigo }">
+                               <form action="alimentacao" method="post" id="form-excluir-${ alimentacao.codigo }">
                                 <input type="hidden" name="action" value="excluir">
-                               	<input type="hidden" name="id" value="${ atividade.codigo }">
-                               	<a href="#" onclick="document.getElementById('form-excluir-${ atividade.codigo }').submit();" 
+                               	<input type="hidden" name="id" value="${ alimentacao.codigo }">
+                               	<a href="#" onclick="document.getElementById('form-excluir-${ alimentacao.codigo }').submit();" 
                                				class="fas fa-window-close"></a>
                                </form>
                                </td>

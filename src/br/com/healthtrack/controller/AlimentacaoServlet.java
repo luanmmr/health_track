@@ -95,6 +95,8 @@ public class AlimentacaoServlet extends HttpServlet {
 		    cadastrar(request, response, usuario);
 		    break;
 		  
+		  case "excluir" :
+			excluir(request, response, usuario);
 		  }
 
 	}
@@ -103,6 +105,12 @@ public class AlimentacaoServlet extends HttpServlet {
 		throws ServletException, IOException {
 		
 		List<Ingestao> lista = ingestaoDAO.listarDia(usuario, data);
+		
+		// Total KCAL
+		double totalCaloriasAli = 0;
+		for (Ingestao igt : lista)
+			totalCaloriasAli += igt.getTotalKcal();
+		request.setAttribute("totalCaloriasAli", totalCaloriasAli);
 		
 		// Data das atividades
 	    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
@@ -137,6 +145,29 @@ public class AlimentacaoServlet extends HttpServlet {
 		}
 		
 		listar(request, response, usuario, data);	
+	}
+	
+	private void excluir(HttpServletRequest request, HttpServletResponse response, Usuario usuario) 
+		throws ServletException, IOException {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		ingestaoDAO.remover(id);
+		request.setAttribute("msgSucesso", "Alimentação excluída.");
+		
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		HttpSession session = request.getSession();
+		Calendar data = Calendar.getInstance();
+		
+		try {
+		  data.setTime(f.parse((String) session.getAttribute("dtExibidaAli")));
+
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		    request.setAttribute("msgErro", "Erro ao processar a data.");
+
+		}
+		
+		listar(request, response, usuario, data);
 	}
 
 }

@@ -203,7 +203,7 @@ public class OracleIngestao implements IngestaoDAO {
 			  Medida medida = new Medida(0, rs.getString("nm_abreviado"), rs.getString("nm_medida"));
 			  Alimento alimento = new Alimento(0, rs.getString("nm_alimento"), medida, rs.getDouble("vl_medida"), 
 					  						   rs.getDouble("vl_kcal"), null);
-			  lista.add(new Ingestao(0, null, alimento, periodo, dataIngestao, rs.getInt("vl_quantidade")));
+			  lista.add(new Ingestao(rs.getInt("cd_ingestao"), null, alimento, periodo, dataIngestao, rs.getInt("vl_quantidade")));
 		  }
 			
 		} catch (SQLException e) {
