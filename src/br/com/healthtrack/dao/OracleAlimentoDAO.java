@@ -170,7 +170,8 @@ public class OracleAlimentoDAO implements AlimentoDAO {
 				   + "INNER JOIN t_htk_grupo_alimento "
 				   + "ON (t_htk_alimento.cd_grupo = t_htk_grupo_alimento.cd_grupo) "
 				   + "INNER JOIN t_htk_medida "
-				   + "ON (t_htk_medida.cd_medida = t_htk_alimento.cd_medida) ";
+				   + "ON (t_htk_medida.cd_medida = t_htk_alimento.cd_medida) "
+				   + "ORDER BY cd_alimento";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		

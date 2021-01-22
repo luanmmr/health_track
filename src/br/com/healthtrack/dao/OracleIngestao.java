@@ -16,6 +16,7 @@ import br.com.healthtrack.bean.Ingestao;
 import br.com.healthtrack.bean.Medida;
 import br.com.healthtrack.bean.PeriodoRefeicao;
 import br.com.healthtrack.bean.Usuario;
+import br.com.healthtrack.exception.DBException;
 import br.com.healthtrack.singleton.ConnectionManager;
 
 
@@ -24,7 +25,7 @@ public class OracleIngestao implements IngestaoDAO {
 	private Connection conexao;
 	
 	@Override
-	public void cadastrar(Ingestao ingestao) {
+	public void cadastrar(Ingestao ingestao) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO t_htk_ingestao "
 				   + "VALUES (SQ_HTK_INGESTAO.nextval, ?, ?, ?, ?, ?)";
@@ -45,6 +46,7 @@ public class OracleIngestao implements IngestaoDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DBException("Erro ao cadastrar ingestão");
 		} finally {
 			try {
 				pstmt.close();

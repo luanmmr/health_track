@@ -34,5 +34,9 @@ public class DAOFactory {
 	public static MedidaDAO getMedidaDAO() {
 		return new OracleMedidaDAO();
 	}
+	
+	public static PeriodoRefeicaoDAO getPeriodoRefeicaoDAO() {
+		return new OraclePeriodoRefeicaoDAO();
+	}
 
 }

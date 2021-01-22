@@ -146,6 +146,7 @@
                        <thead style="background-color: #1cc88a; color: white;">
                            <tr>
                                <th>Alimento</th>
+                               <th></th>
                                <th>Período</th>
                                <th>Data</th>
                                <th>Quantidade</th>
@@ -161,9 +162,10 @@
                         
                            <tr>
                                <td>${ alimentacao.alimento.nome }</td>
+                               <td>${ alimentacao.alimento.valorMedida } ${ alimentacao.alimento.medida.nomeAbreviado }</td>
                                <td>${ alimentacao.periodoRefeicao.nomePeriodo}</td>
                                <td>
-                                 <fmt:formatDate pattern="dd/MM/yyy HH:mm:ss" 
+                                 <fmt:formatDate pattern="dd/MM/yyy HH:mm" 
                                                  value="${ alimentacao.dataIngestao.time}"/>
                                </td>
                                <td>
@@ -238,7 +240,7 @@
 		            </div>
 		            <div class="modal-body">
 		              
-		              <form action="atividades" method="post">
+		              <form action="alimentacao" method="post">
                     <input type="hidden" name="action" value="cadastrar">
                     
                     <div class="form-row">
@@ -252,12 +254,14 @@
 	                        <div class="input-group-prepend">
 	                            <label class="input-group-text">Alimento</label>
 	                        </div>
-	                        <select id="atv" name="atividade" class="custom-select" required>
+	                        <select name="alimento" class="custom-select" required>
 	                            <option value="" selected>Selecione...</option>
-	                            <option value="caminhada">Caminhada</option>
-	                            <option value="corrida">Corrida</option>
-	                            <option value="ciclismo">Ciclismo</option>
-	                            <option value="natacao">Natação</option>
+	                            <c:forEach items="${ alimentos }" var="alimento">
+	                            	<option value="${ alimento.codigo }">Cod. 
+	                            		${ alimento.codigo } - ${ alimento.nome } - 
+	                            		${ alimento.valorMedida } ${ alimento.medida.nomeAbreviado } - ${ alimento.kcal } kcal
+	                            	</option>
+	                            </c:forEach>
 	                        </select>
 	                     </div>
                     </div>
@@ -267,26 +271,25 @@
 	                        <div class="input-group-prepend">
 	                            <label class="input-group-text">Período</label>
 	                        </div>
-	                        <select id="atv" name="atividade" class="custom-select" required>
+	                        <select name="periodo" class="custom-select" required>
 	                            <option value="" selected>Selecione...</option>
-	                            <option value="caminhada">Caminhada</option>
-	                            <option value="corrida">Corrida</option>
-	                            <option value="ciclismo">Ciclismo</option>
-	                            <option value="natacao">Natação</option>
+	                            <c:forEach items="${ periodos }" var="periodo">
+	                            	<option value="${ periodo.codigo }" >${ periodo.nomePeriodo }</option>
+	                            </c:forEach>
 	                        </select>
 	                     </div>
                     </div>
                     
                     <div class="form-row">       
-                      <div class="form-group col-md-5">
-                        <label for="dt-inicio" class="label-custom">Data:</label>
-                         <input type="date" name="dt-inicio" step="1" class="form-control input-custom" 
-                         	      value="" required>
+                      <div class="form-group col-md-6">
+                        <label for="data" class="label-custom">Data:</label>
+                         <input type="datetime-local" name="data" class="form-control input-custom" 
+                         	      value="${ dtExibidaAli }T00:00" required>
                        </div>
                          
                        <div class="form-group col-md-2">
-                        <label for="dt-fim" class="label-custom">Quant.:</label>
-                         <input type="number" name="dt-fim" step="1" class="form-control input-custom" 
+                        <label for="quantidade" class="label-custom">Quant.:</label>
+                         <input type="number" name="quantidade" step="1" class="form-control input-custom" 
                          	      required>
                        </div>  
                     </div>

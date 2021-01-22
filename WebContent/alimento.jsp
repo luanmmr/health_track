@@ -211,7 +211,7 @@
                      <div class="form-row" style="margin-top: 20px;">
                        <div class="form-group col-md-4" style="margin-top: 6px;">
                          <input class="btn btn-sm btn-primary" type="submit" value="Cadastrar">
-                         <a href="alimentacao.jsp"  class="btn btn-sm btn-primary">Voltar</a>
+                         <a href="alimentacao?action=listar"  class="btn btn-sm btn-primary">Voltar</a>
                        </div>
                      </div>
 
