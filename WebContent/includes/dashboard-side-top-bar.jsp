@@ -58,7 +58,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" >
+                <a class="nav-link collapsed" href="peso?action=listar" >
                     <i class="fas fa-fw fa-weight"></i>
                     <span>Peso</span>
                 </a>
@@ -66,7 +66,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="charts.html" data-toggle="collapse">
+                <a class="nav-link collapsed" href="pressaoArterial?action=listar" >
                     <i class="fas fa-fw fa-heartbeat"></i>
                     <span>Pressão Arterial</span>
                  </a>
