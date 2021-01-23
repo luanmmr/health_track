@@ -65,7 +65,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 	public void atualizar(Usuario usuario) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE t_htk_usuario SET NM_USUARIO = ?, NM_SOBRENOME = ?, DS_EMAIL = ?, "
-				   + "PWD_SENHA = ?, DT_NASCIMENTO = ?, VL_META_KCAL = ? "
+				   + "PWD_SENHA = ?, DT_NASCIMENTO = ?, VL_META_KCAL = ?, VL_PESO = ?, VL_IMC = ? "
 				   + "WHERE CD_USUARIO = ?";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
@@ -80,7 +80,9 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 			java.sql.Date data = new java.sql.Date(usuario.getDataNascimento().getTimeInMillis());
 			pstmt.setDate(5, data);
 			pstmt.setInt(6, usuario.getMetaGastoCalorico());
-			pstmt.setInt(7, usuario.getCodigo());
+			pstmt.setDouble(7, usuario.getPeso());
+			pstmt.setDouble(8, usuario.getImc());
+			pstmt.setInt(9, usuario.getCodigo());
 	
 			pstmt.executeUpdate();
 			
@@ -152,7 +154,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
           Calendar data = Calendar.getInstance();
           data.setTimeInMillis(rs.getDate("DT_NASCIMENTO").getTime());
           usuario = new Usuario(rs.getInt("CD_USUARIO"), rs.getString("NM_USUARIO"), 
-        		  rs.getString("NM_SOBRENOME"), email, rs.getString("PWD_SENHA"), data, 
+        		  rs.getString("NM_SOBRENOME"), email, " ", data, 
         		  rs.getDouble("VL_ALTURA"), rs.getDouble("VL_PESO"), 
         		  rs.getInt("VL_SISTOLICA"), rs.getInt("VL_DIASTOLICA"),
         		  rs.getInt("VL_META_KCAL"));

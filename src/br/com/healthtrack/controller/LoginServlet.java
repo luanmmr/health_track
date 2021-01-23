@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.healthtrack.bean.Usuario;
 import br.com.healthtrack.dao.DAOFactory;
 import br.com.healthtrack.dao.UsuarioDAO;
 import br.com.healthtrack.util.CriptografiaSenha;
@@ -48,8 +49,10 @@ public class LoginServlet extends HttpServlet {
 		
 		if (dao.autenticar(email, senha)) {
 			HttpSession session = request.getSession();
-			session.setAttribute("user", dao.buscarUsuario(email));
+			Usuario usuario = dao.buscarUsuario(email);
+			usuario.setSenha(senha);
 			session.setAttribute("pwd", senha);
+			session.setAttribute("user", usuario);
 	        response.sendRedirect("dashboard.jsp");
 				
 		} else {

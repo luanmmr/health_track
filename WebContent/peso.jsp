@@ -131,7 +131,7 @@
                            <tr>
                                <td>${ pesoUsuario.peso } kg</td>
                                <td>
-                                 <fmt:formatDate pattern="dd/MM/yyy HH:mm" 
+                                 <fmt:formatDate pattern="dd/MM/yyy" 
                                                  value="${ pesoUsuario.dataRegistro.time}"/>
                                </td>
                                <td>
@@ -198,56 +198,26 @@
 		            </div>
 		            <div class="modal-body">
 		              
-		              <form action="alimentacao" method="post">
+		              <form action="peso" method="post">
                     <input type="hidden" name="action" value="cadastrar">
                     
-                    <div class="form-row">
-	                     <div class="mb-3 col-md-12">
-	                        Se não encontrar o alimento, <a href="alimentos?action=cadastrar">clique aqui</a> para adicionar.
-	                     </div>
-                    </div>
-                    
-	                  <div class="form-row">
-	                     <div class="input-group mb-3 col-md-12">
-	                        <div class="input-group-prepend">
-	                            <label class="input-group-text">Alimento</label>
-	                        </div>
-	                        <select name="alimento" class="custom-select" required>
-	                            <option value="" selected>Selecione...</option>
-	                            <c:forEach items="${ alimentos }" var="alimento">
-	                            	<option value="${ alimento.codigo }">Cod. 
-	                            		${ alimento.codigo } - ${ alimento.nome } - 
-	                            		${ alimento.valorMedida } ${ alimento.medida.nomeAbreviado } - ${ alimento.kcal } kcal
-	                            	</option>
-	                            </c:forEach>
-	                        </select>
-	                     </div>
-                    </div>
-                    
-                     <div class="form-row">
-	                     <div class="input-group mb-3 col-md-8">
-	                        <div class="input-group-prepend">
-	                            <label class="input-group-text">Período</label>
-	                        </div>
-	                        <select name="periodo" class="custom-select" required>
-	                            <option value="" selected>Selecione...</option>
-	                            <c:forEach items="${ periodos }" var="periodo">
-	                            	<option value="${ periodo.codigo }" >${ periodo.nomePeriodo }</option>
-	                            </c:forEach>
-	                        </select>
-	                     </div>
-                    </div>
-                    
                     <div class="form-row">       
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-5">
                         <label for="data" class="label-custom">Data:</label>
-                         <input type="datetime-local" name="data" class="form-control input-custom" 
-                         	      value="${ dtExibidaAli }T00:00" required>
+                        
+                         <c:if test="${ dtExibidaPeso != null }">
+                         		<input type="date" name="data" class="form-control input-custom" 
+                         	      	 value="${ dtExibidaAli }" required>
+                         </c:if>
+                         <c:if test="${ dtExibidaPeso == null }">
+                         		<input type="date" name="data" class="form-control input-custom" 
+                         	      	 required>
+                         </c:if>
                        </div>
                          
-                       <div class="form-group col-md-2">
-                        <label for="quantidade" class="label-custom">Quant.:</label>
-                         <input type="number" name="quantidade" step="1" class="form-control input-custom" 
+                       <div class="form-group col-md-3">
+                        <label for="peso" class="label-custom">Peso</label>
+                         <input type="number" name="peso" step="0.01" class="form-control input-custom" 
                          	      required>
                        </div>  
                     </div>

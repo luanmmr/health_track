@@ -122,7 +122,7 @@ public class OraclePesoDAO implements PesoDAO {
 		List<Peso> lista = new ArrayList<Peso>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM t_htk_peso WHERE cd_usuario = ? ORDER BY cd_registro";
+		String sql = "SELECT * FROM t_htk_peso WHERE cd_usuario = ? ORDER BY dt_registro DESC, cd_registro DESC";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		
@@ -164,7 +164,7 @@ public class OraclePesoDAO implements PesoDAO {
 		ResultSet rs = null;
 		String sql = "SELECT * FROM t_htk_peso "
 			       + "WHERE (dt_registro >= ? AND dt_registro < ?) AND (cd_usuario = ?) "
-		           + "ORDER BY cd_registro";
+		           + "ORDER BY dt_registro DESC, cd_registro DESC";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		

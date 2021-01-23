@@ -17,6 +17,8 @@ import br.com.healthtrack.bean.Peso;
 import br.com.healthtrack.bean.Usuario;
 import br.com.healthtrack.dao.DAOFactory;
 import br.com.healthtrack.dao.PesoDAO;
+import br.com.healthtrack.dao.UsuarioDAO;
+import br.com.healthtrack.exception.DBException;
 
 /**
  * Servlet implementation class PesoServlet
@@ -26,6 +28,7 @@ public class PesoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private PesoDAO pesoDAO;
+	private UsuarioDAO usuarioDAO;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,6 +36,7 @@ public class PesoServlet extends HttpServlet {
     public PesoServlet() {
         super();
         pesoDAO = DAOFactory.getPesoDAO();
+        usuarioDAO = DAOFactory.getUsuarioDAO();
     }
 
 	/**
@@ -78,6 +82,9 @@ public class PesoServlet extends HttpServlet {
 		case "excluir":
 		  excluir(request, response, usuario);
 		  break;
+		  
+		case "cadastrar" :
+		  cadastrar(request, response, usuario);
 		}
 	}
 	
@@ -105,7 +112,7 @@ public class PesoServlet extends HttpServlet {
 	}
 	
 	private void excluir(HttpServletRequest request, HttpServletResponse response, Usuario usuario) 
-			throws ServletException, IOException {
+		throws ServletException, IOException {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		pesoDAO.remover(id);
@@ -113,6 +120,41 @@ public class PesoServlet extends HttpServlet {
 		request.setAttribute("msgSucesso", "Registro de Peso excluído");
 		
 		listar(request, response, usuario, null);
+	}
+	
+	private void cadastrar(HttpServletRequest request, HttpServletResponse response, Usuario usuario) 
+		throws ServletException, IOException {
+		
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		double valorPeso = Double.parseDouble(request.getParameter("peso"));
+		Calendar dataAtual = Calendar.getInstance();
+		dataAtual.set(dataAtual.get(Calendar.YEAR), dataAtual.get(Calendar.MONTH), dataAtual.get(Calendar.DATE), 0, 0, 0);
+		Calendar data = Calendar.getInstance();
+		
+		try {
+		  data.setTime(f.parse(request.getParameter("data")));
+		  pesoDAO.cadastrar(new Peso(0, usuario, data, valorPeso));
+		  request.setAttribute("msgSucesso", "Atividade registrada!");
+		  
+		  data.add(Calendar.SECOND , 1);
+		  if (!data.before(dataAtual)) {
+			try {
+			  usuario.setPeso(valorPeso);
+			  usuarioDAO.atualizar(usuario);
+			  
+			} catch (DBException e) {
+				e.printStackTrace();
+				request.setAttribute("msgErro", "Não foi possível atualizar o seu peso.");
+			}
+		    
+		  }
+		  
+		} catch (ParseException e) {
+			e.printStackTrace();
+			request.setAttribute("msgErro", "Erro ao processar a data.");
+		}
+		
+		listar(request, response, usuario, data);
 	}
 
 }
