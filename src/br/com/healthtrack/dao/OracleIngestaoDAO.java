@@ -20,7 +20,7 @@ import br.com.healthtrack.exception.DBException;
 import br.com.healthtrack.singleton.ConnectionManager;
 
 
-public class OracleIngestao implements IngestaoDAO {
+public class OracleIngestaoDAO implements IngestaoDAO {
 	
 	private Connection conexao;
 	

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -119,33 +120,81 @@ public class OraclePressaoArterialDAO implements PressaoArterialDAO {
 	}
 	
 	@Override
-	public List<PressaoArterial> listar() {
+	public List<PressaoArterial> listarUsuario(Usuario usuario) {
 		List<PressaoArterial> lista = new ArrayList<PressaoArterial>();
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM t_htk_pressao_arterial";
+		String sql = "SELECT * FROM t_htk_pressao_arterial "
+				   + "WHERE cd_usuario = ? ORDER BY dt_registro DESC, cd_registro DESC";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		
 		try {
-			stmt = conexao.createStatement();
-			rs = stmt.executeQuery(sql);
+			pstmt = conexao.prepareStatement(sql);
+			pstmt.setInt(1, usuario.getCodigo());
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				Calendar data = Calendar.getInstance();
 				data.setTimeInMillis(rs.getDate("DT_REGISTRO").getTime());
 				
-				lista.add(new PressaoArterial(rs.getInt("CD_REGISTRO"), new Usuario(rs.getInt("CD_USUARIO")), 
-						                      data, rs.getInt("VL_SISTOLICA"), rs.getInt("VL_DIASTOLICA")));
+				lista.add(new PressaoArterial(rs.getInt("CD_REGISTRO"), usuario, data, 
+										      rs.getInt("VL_SISTOLICA"), rs.getInt("VL_DIASTOLICA")));
 			}
 			
 		} catch (SQLException e ) {
 			e.printStackTrace();
 		} finally {
 			try {
-				rs.close();
-				stmt.close();
-				conexao.close();
+			  pstmt.close();
+			  conexao.close();
+			  
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		
+		return lista;	
+	}
+	
+	@Override
+	public List<PressaoArterial> listarUsuario(Usuario usuario, Calendar data) {
+		List<PressaoArterial> lista = new ArrayList<PressaoArterial>();
+		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+		String dia = f.format(data.getTime());
+		data.add(Calendar.DATE, 1);
+		String diaLimite = f.format(data.getTime());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM t_htk_pressao_arterial "
+			       + "WHERE (dt_registro >= ? AND dt_registro < ?) AND (cd_usuario = ?) "
+		           + "ORDER BY dt_registro DESC, cd_registro DESC";
+		
+		conexao = ConnectionManager.getInstance().getConnection();
+		
+		try {
+			pstmt = conexao.prepareStatement(sql);
+			pstmt.setString(1, dia);
+			pstmt.setString(2, diaLimite);
+			pstmt.setInt(3, usuario.getCodigo());
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Calendar dataRegistro = Calendar.getInstance();
+				data.setTimeInMillis(rs.getDate("DT_REGISTRO").getTime());
+				
+				lista.add(new PressaoArterial(rs.getInt("CD_REGISTRO"), usuario, dataRegistro, 
+										      rs.getInt("VL_SISTOLICA"), rs.getInt("VL_DIASTOLICA")));
+			}
+			
+		} catch (SQLException e ) {
+			e.printStackTrace();
+		} finally {
+			data.add(Calendar.DATE, -1);
+			try {
+			  pstmt.close();
+			  conexao.close();
+			  
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

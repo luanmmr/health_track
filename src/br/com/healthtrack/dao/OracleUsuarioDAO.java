@@ -65,7 +65,8 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 	public void atualizar(Usuario usuario) throws DBException {
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE t_htk_usuario SET NM_USUARIO = ?, NM_SOBRENOME = ?, DS_EMAIL = ?, "
-				   + "PWD_SENHA = ?, DT_NASCIMENTO = ?, VL_META_KCAL = ?, VL_PESO = ?, VL_IMC = ? "
+				   + "PWD_SENHA = ?, DT_NASCIMENTO = ?, VL_META_KCAL = ?, VL_PESO = ?, VL_IMC = ?, "
+				   + "VL_SISTOLICA = ?, VL_DIASTOLICA = ? "
 				   + "WHERE CD_USUARIO = ?";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
@@ -82,7 +83,9 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 			pstmt.setInt(6, usuario.getMetaGastoCalorico());
 			pstmt.setDouble(7, usuario.getPeso());
 			pstmt.setDouble(8, usuario.getImc());
-			pstmt.setInt(9, usuario.getCodigo());
+			pstmt.setInt(9, usuario.getSistolica());
+			pstmt.setInt(10, usuario.getDiastolica());
+			pstmt.setInt(11, usuario.getCodigo());
 	
 			pstmt.executeUpdate();
 			

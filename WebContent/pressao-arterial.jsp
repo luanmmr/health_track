@@ -11,7 +11,7 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   	<meta name="description" content="">
   	<meta name="author" content="Luan Ribeiro">
-  	<title>Peso</title>
+  	<title>Pressão Arterial</title>
   	<%@ include file="includes/dashboard-style.jsp" %>
 	</head>
 	
@@ -23,8 +23,8 @@
 
         <!-- Page Heading -->
 
-            <h1 class="h3 mb-2 text-gray-800">Peso</h1>
-            <p class="mb-4">Registros de seu peso.
+            <h1 class="h3 mb-2 text-gray-800">Pressão Arterial</h1>
+            <p class="mb-4">Registros de sua pressão arterial.
             </p>
 
         
@@ -38,8 +38,10 @@
 	                       <div class="row no-gutters align-items-center">
 	                           <div class="col mr-2">
 	                               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-	                                   Peso Atual</div>
-	                               <div class="h5 mb-0 font-weight-bold text-gray-800">${ user.peso } kg</div>
+	                                   Pressão Arterial Atual</div>
+	                               <div class="h5 mb-0 font-weight-bold text-gray-800">
+	                               		${ user.sistolica } / ${ user.diastolica }
+	                               	</div>
 	                           </div>
 	                           <div class="col-auto">
 	                               <i class="fas fa-weight fa-2x text-gray-300"></i>
@@ -58,9 +60,9 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA</div>
                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                  <form action="peso" method="get" id="form-data">
+                                  <form action="pressaoArterial" method="get" id="form-data">
                                     <input type="hidden" name="action" value="alterar-data">
-                                    <input type="date" value="${ dtExibidaPeso }" onchange="document.getElementById('form-data').submit();"
+                                    <input type="date" value="${ dtExibidaPressao }" onchange="document.getElementById('form-data').submit();"
                                            name="data" class="input-date font-weight-bold text-gray-800 h5 mb-0 mr-3">
                                   </form>
                                 </div>
@@ -81,7 +83,7 @@
             <div class="card shadow mb-4">
               <div class="card-header py-3 space-title-button">
                   <h6 class="m-0 font-weight-bold text-primary">
-                    Histórico de Peso
+                    Histórico de Pressão Arterial
                   </h6>
                   
                   <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" 
@@ -113,12 +115,12 @@
                   <br><br>
                 </c:if>
                 
-                <c:if test="${ not empty listaPeso }">
+                <c:if test="${ not empty listaPressaoArterial }">
                 <div class="table-responsive">
                    <table class="table table-striped">
                        <thead style="background-color: #1cc88a; color: white;">
                            <tr>
-                               <th>Peso</th>
+                               <th>Pressão Arterial</th>
                                <th>Data do Registro</th>
                                <th></th>
               
@@ -126,19 +128,19 @@
                        </thead>
                        <tbody>
                            
-                        <c:forEach items="${ listaPeso }" var="pesoUsuario">
+                        <c:forEach items="${ listaPressaoArterial }" var="pressaoArterial">
                         
                            <tr>
-                               <td>${ pesoUsuario.peso } kg</td>
+                               <td>${ pressaoArterial.sistolica } / ${ pressaoArterial.diastolica }</td>
                                <td>
                                  <fmt:formatDate pattern="dd/MM/yyy" 
-                                                 value="${ pesoUsuario.dataRegistro.time}"/>
+                                                 value="${ pressaoArterial.dataRegistro.time}"/>
                                </td>
                                <td>
-                               <form action="peso" method="post" id="form-excluir-${ pesoUsuario.codigo }">
+                               <form action="pressaoArterial" method="post" id="form-excluir-${ pressaoArterial.codigo }">
                                 <input type="hidden" name="action" value="excluir">
-                               	<input type="hidden" name="id" value="${ pesoUsuario.codigo }">
-                               	<a href="#" onclick="document.getElementById('form-excluir-${ pesoUsuario.codigo }').submit();" 
+                               	<input type="hidden" name="id" value="${ pressaoArterial.codigo }">
+                               	<a href="#" onclick="document.getElementById('form-excluir-${ pressaoArterial.codigo }').submit();" 
                                				class="fas fa-window-close"></a>
                                </form>
                                </td>
@@ -150,8 +152,8 @@
                    </table>
                </div>
                </c:if>
-               <c:if test="${ empty listaPeso }">
-               	<p>Nenhuma alimentação registrada.</p>
+               <c:if test="${ empty listaPressaoArterial }">
+               	<p>Nenhuma Pressão Arterial registrada.</p>
                </c:if>
                
               </div>
@@ -191,33 +193,39 @@
 		    <div class="modal-dialog" role="document">
 		        <div class="modal-content" style="border-radius: 8px;">
 		            <div class="modal-header">
-		                <h5 class="modal-title" id="exampleModalLabel">Registrar Peso</h5>
+		                <h5 class="modal-title" id="exampleModalLabel">Registrar Pressão Arterial</h5>
 		                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
 		                    <span aria-hidden="true">X</span>
 		                </button>
 		            </div>
 		            <div class="modal-body">
 		              
-		              <form action="peso" method="post">
+		              <form action="pressaoArterial" method="post">
                     <input type="hidden" name="action" value="cadastrar">
                     
                     <div class="form-row">       
                       <div class="form-group col-md-5">
                         <label for="data" class="label-custom">Data:</label>
                         
-                         <c:if test="${ dtExibidaPeso != null }">
+                         <c:if test="${ dtExibidaPressao != null }">
                          		<input type="date" name="data" class="form-control input-custom" 
-                         	      	 value="${ dtExibidaAli }" required>
+                         	      	 value="${ dtExibidaPressao }" required>
                          </c:if>
-                         <c:if test="${ dtExibidaPeso == null }">
+                         <c:if test="${ dtExibidaPressao == null }">
                          		<input type="date" name="data" class="form-control input-custom" 
                          	      	 required>
                          </c:if>
                        </div>
                          
                        <div class="form-group col-md-3">
-                        <label for="peso" class="label-custom">Peso</label>
-                         <input type="number" name="peso" step="0.01" class="form-control input-custom" 
+                        <label for="sistolica" class="label-custom">Sistólica</label>
+                         <input type="number" name="sistolica" class="form-control input-custom" 
+                         	      required>
+                       </div>
+                       
+                       <div class="form-group col-md-3">
+                        <label for="diastolica" class="label-custom">Diastólica</label>
+                         <input type="number" name="diastolica" class="form-control input-custom" 
                          	      required>
                        </div>  
                     </div>
@@ -234,6 +242,6 @@
 		    </div>
 		</div>
 		
-		<%@ include file="includes/peso-js.jsp" %>
+		<%@ include file="includes/pressao-arterial-js.jsp" %>
 	</body>
 </html>

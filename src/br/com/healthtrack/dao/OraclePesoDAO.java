@@ -135,8 +135,7 @@ public class OraclePesoDAO implements PesoDAO {
 				Calendar data = Calendar.getInstance();
 				data.setTimeInMillis(rs.getDate("DT_REGISTRO").getTime());
 				
-				lista.add(new Peso(rs.getInt("CD_REGISTRO"), usuario, 
-								   data, rs.getDouble("VL_PESO")));
+				lista.add(new Peso(rs.getInt("CD_REGISTRO"), usuario, data, rs.getDouble("VL_PESO")));
 			}
 			
 		} catch (SQLException e ) {
@@ -186,6 +185,7 @@ public class OraclePesoDAO implements PesoDAO {
 		} catch (SQLException e ) {
 			e.printStackTrace();
 		} finally {
+			data.add(Calendar.DATE, -1);
 			try {
 				pstmt.close();
 				conexao.close();

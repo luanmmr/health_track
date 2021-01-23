@@ -12,7 +12,7 @@ public class DAOFactory {
 	}
 	
 	public static IngestaoDAO getIngestaoDAO() {
-		return new OracleIngestao();
+		return new OracleIngestaoDAO();
 	}
 	
 	public static PesoDAO getPesoDAO() {
