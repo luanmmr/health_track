@@ -67,9 +67,18 @@ public class PesoServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+		throws ServletException, IOException {
+		
+		String action = request.getParameter("action");
+		HttpSession session = request.getSession();
+		Usuario usuario = (Usuario) session.getAttribute("user");
+		
+		switch (action) {
+		case "excluir":
+		  excluir(request, response, usuario);
+		  break;
+		}
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response, Usuario usuario, Calendar data) 
@@ -93,6 +102,17 @@ public class PesoServlet extends HttpServlet {
 		
 		request.getRequestDispatcher("peso.jsp").forward(request, response);
 		
+	}
+	
+	private void excluir(HttpServletRequest request, HttpServletResponse response, Usuario usuario) 
+			throws ServletException, IOException {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		pesoDAO.remover(id);
+		
+		request.setAttribute("msgSucesso", "Registro de Peso excluído");
+		
+		listar(request, response, usuario, null);
 	}
 
 }

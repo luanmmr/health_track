@@ -121,7 +121,6 @@
                                <th>Peso</th>
                                <th>Data do Registro</th>
                                <th></th>
-                               <th></th>
               
                            </tr>
                        </thead>
@@ -135,15 +134,11 @@
                                  <fmt:formatDate pattern="dd/MM/yyy HH:mm" 
                                                  value="${ pesoUsuario.dataRegistro.time}"/>
                                </td>
-                               <td><a href="#">
-                               				<i class="fas fa-edit"></i>
-                               		 </a>
-                               </td>
                                <td>
-                               <form action="alimentacao" method="post" id="form-excluir-${ alimentacao.codigo }">
+                               <form action="peso" method="post" id="form-excluir-${ pesoUsuario.codigo }">
                                 <input type="hidden" name="action" value="excluir">
-                               	<input type="hidden" name="id" value="${ alimentacao.codigo }">
-                               	<a href="#" onclick="document.getElementById('form-excluir-${ alimentacao.codigo }').submit();" 
+                               	<input type="hidden" name="id" value="${ pesoUsuario.codigo }">
+                               	<a href="#" onclick="document.getElementById('form-excluir-${ pesoUsuario.codigo }').submit();" 
                                				class="fas fa-window-close"></a>
                                </form>
                                </td>
