@@ -27,7 +27,7 @@ import br.com.healthtrack.exception.DBException;
  * Servlet implementation class AlimentacaoServlet
  */
 @WebServlet("/alimentacao")
-public class AlimentacaoServlet extends HttpServlet {
+public class AlimentacoesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private IngestaoDAO ingestaoDAO;
@@ -37,7 +37,7 @@ public class AlimentacaoServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AlimentacaoServlet() {
+    public AlimentacoesServlet() {
         super();
         ingestaoDAO = DAOFactory.getIngestaoDAO();
         alimentoDAO = DAOFactory.getAlimentoDAO();

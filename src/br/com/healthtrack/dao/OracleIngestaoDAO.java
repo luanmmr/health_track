@@ -9,7 +9,9 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.healthtrack.bean.Alimento;
 import br.com.healthtrack.bean.Ingestao;
@@ -212,6 +214,7 @@ public class OracleIngestaoDAO implements IngestaoDAO {
 			data.add(Calendar.DATE, -1);
 			try {
 				pstmt.close();
+				rs.close();
 				conexao.close();
 				
 			} catch (SQLException e) {
@@ -220,6 +223,91 @@ public class OracleIngestaoDAO implements IngestaoDAO {
 		}
 
 		return lista;
+	}
+	
+	@Override
+	public double caloriasGanhasDia(Usuario usr, Calendar data) {
+		double totalCalorias = 0;
+		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM t_htk_ingestao "
+				   + "INNER JOIN t_htk_alimento ON (t_htk_ingestao.cd_alimento = t_htk_alimento.cd_alimento) "
+				   + "WHERE TO_CHAR(dt_ingestao, 'DD/MM/YYYY') = ? AND cd_usuario = ?";
+		
+		conexao = ConnectionManager.getInstance().getConnection();
+		
+		try {
+		  pstmt = conexao.prepareStatement(sql);
+		  pstmt.setString(1, f.format(data.getTime()));
+		  pstmt.setInt(2, usr.getCodigo());
+		  rs = pstmt.executeQuery();
+		  
+		  while (rs.next()) {
+			  totalCalorias += rs.getDouble("vl_kcal") * rs.getInt("vl_quantidade");
+			  System.out.println(totalCalorias);
+		  }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+			  pstmt.close();
+			  rs.close();
+			  conexao.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return totalCalorias;
+	}
+	
+	@Override
+	public Map<String, Integer> alimentosSegmentoSemanal(Usuario usr) {
+		Map<String, Integer> alimentos = new HashMap<String, Integer>();
+		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar data = Calendar.getInstance();
+		data.setFirstDayOfWeek(Calendar.SUNDAY);
+		data.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		String dtInicio = f.format(data.getTime());
+		data.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+		String dtFim = f.format(data.getTime());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT A.nm_alimento, SUM(I.vl_quantidade) CONTAGEM FROM t_htk_ingestao I "
+			       + "INNER JOIN t_htk_alimento A ON (I.cd_alimento = A.cd_alimento) "
+			       + "WHERE (I.dt_ingestao BETWEEN TO_DATE('"+ dtInicio +"', 'DD/MM/YYYY') AND "
+			       								+ "TO_DATE('"+ dtFim +" 11:59:59', 'DD/MM/YYYY HH:MI:SS')) "
+			       								+ "AND (I.cd_usuario = ?) GROUP BY A.nm_alimento";
+		
+		conexao = ConnectionManager.getInstance().getConnection();
+		
+		try {
+		  pstmt = conexao.prepareStatement(sql);
+		  pstmt.setInt(1, usr.getCodigo());
+		  rs = pstmt.executeQuery();
+		  
+		  while (rs.next()) {
+			alimentos.put(rs.getString("NM_ALIMENTO"), rs.getInt("CONTAGEM"));
+		  }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+		      rs.close();
+			  pstmt.close();
+			  conexao.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return alimentos;
 	}
 	
 	@Override

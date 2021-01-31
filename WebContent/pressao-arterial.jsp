@@ -1,17 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  		   pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
-		<meta charset="utf-8">
   	<meta http-equiv="X-UA-Compatible" content="IE=edge">
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   	<meta name="description" content="">
   	<meta name="author" content="Luan Ribeiro">
-  	<title>Press√£o Arterial</title>
+  	<title>Press„o Arterial</title>
   	<%@ include file="includes/dashboard-style.jsp" %>
 	</head>
 	
@@ -23,8 +22,8 @@
 
         <!-- Page Heading -->
 
-            <h1 class="h3 mb-2 text-gray-800">Press√£o Arterial</h1>
-            <p class="mb-4">Registros de sua press√£o arterial.
+            <h1 class="h3 mb-2 text-gray-800">Press„o Arterial</h1>
+            <p class="mb-4">Registros de sua press„o arterial.
             </p>
 
         
@@ -38,7 +37,7 @@
 	                       <div class="row no-gutters align-items-center">
 	                           <div class="col mr-2">
 	                               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-	                                   Press√£o Arterial Atual</div>
+	                                   Press„o Arterial Atual</div>
 	                               <div class="h5 mb-0 font-weight-bold text-gray-800">
 	                               		${ user.sistolica } / ${ user.diastolica }
 	                               	</div>
@@ -83,7 +82,7 @@
             <div class="card shadow mb-4">
               <div class="card-header py-3 space-title-button">
                   <h6 class="m-0 font-weight-bold text-primary">
-                    Hist√≥rico de Press√£o Arterial
+                    HistÛrico de Press„o Arterial
                   </h6>
                   
                   <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" 
@@ -120,7 +119,7 @@
                    <table class="table table-striped">
                        <thead style="background-color: #1cc88a; color: white;">
                            <tr>
-                               <th>Press√£o Arterial</th>
+                               <th>Press„o Arterial</th>
                                <th>Data do Registro</th>
                                <th></th>
               
@@ -153,7 +152,7 @@
                </div>
                </c:if>
                <c:if test="${ empty listaPressaoArterial }">
-               	<p>Nenhuma Press√£o Arterial registrada.</p>
+               	<p>Nenhuma Press„o Arterial registrada.</p>
                </c:if>
                
               </div>
@@ -193,7 +192,7 @@
 		    <div class="modal-dialog" role="document">
 		        <div class="modal-content" style="border-radius: 8px;">
 		            <div class="modal-header">
-		                <h5 class="modal-title" id="exampleModalLabel">Registrar Press√£o Arterial</h5>
+		                <h5 class="modal-title" id="exampleModalLabel">Registrar Press„o Arterial</h5>
 		                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
 		                    <span aria-hidden="true">X</span>
 		                </button>
@@ -218,13 +217,13 @@
                        </div>
                          
                        <div class="form-group col-md-3">
-                        <label for="sistolica" class="label-custom">Sist√≥lica</label>
+                        <label for="sistolica" class="label-custom">SistÛlica</label>
                          <input type="number" name="sistolica" class="form-control input-custom" 
                          	      required>
                        </div>
                        
                        <div class="form-group col-md-3">
-                        <label for="diastolica" class="label-custom">Diast√≥lica</label>
+                        <label for="diastolica" class="label-custom">DiastÛlica</label>
                          <input type="number" name="diastolica" class="form-control input-custom" 
                          	      required>
                        </div>  

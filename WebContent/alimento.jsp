@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -55,13 +53,13 @@
                   
                   
                   <fieldset>
-    									<legend><strong>Obrigat√≥rio</strong></legend>
+    									<legend><strong>ObrigatÛrio</strong></legend>
                   
                   <div class="form-row">       
                       <div class="form-group col-md-6">
                         <label for="nome" class="label-custom">Nome:</label>
                          <input type="text" name="nome" class="form-control input-custom"
-                                maxlength="30" placeholder="Ex: laranja, suco, p√£o ... " required>
+                                maxlength="30" placeholder="Ex: laranja, suco, p„o ... " required>
                        </div>
                   </div>
                 
@@ -126,7 +124,7 @@
                        </div>
                        
                        <div class="form-group col-md-2">
-                        <label for="proteina" class="label-custom">Prote√≠na:</label>
+                        <label for="proteina" class="label-custom">ProteÌna:</label>
                          <input type="number" step="0.1" name="proteina" value="0"
                          			  class="form-control input-custom">
                        </div>
@@ -153,7 +151,7 @@
                        </div>
                        
                        <div class="form-group col-md-2">
-                        <label for="sodio" class="label-custom">S√≥dio:</label>
+                        <label for="sodio" class="label-custom">SÛdio:</label>
                          <input type="number" step="0.1" name="sodio" value="0"
                          				class="form-control input-custom">
                        </div>
@@ -162,19 +160,19 @@
                   
                  	<div class="form-row">       
                       <div class="form-group col-md-2">
-                        <label for="potassio" class="label-custom">Pot√°ssio:</label>
+                        <label for="potassio" class="label-custom">Pot·ssio:</label>
                          <input type="number" step="0.1" name="potassio" value="0"
                          				class="form-control input-custom">
                        </div>
                          
                       <div class="form-group col-md-3">
-                        <label for="fibra" class="label-custom">Fibra Diet√©tica:</label>
+                        <label for="fibra" class="label-custom">Fibra DietÈtica:</label>
                          <input type="number" step="0.1" name="fibra" value="0"
                          				class="form-control input-custom">
                        </div>
                        
                        <div class="form-group col-md-2">
-                        <label for="acucares" class="label-custom">A√ß√∫cares:</label>
+                        <label for="acucares" class="label-custom">AÁ˙cares:</label>
                          <input type="number" step="0.1" name="acucares" value="0"
                          				class="form-control input-custom">
                        </div>
@@ -194,7 +192,7 @@
                        </div>
                          
                       <div class="form-group col-md-2">
-                        <label for="calcio" class="label-custom">C√°lcio:</label>
+                        <label for="calcio" class="label-custom">C·lcio:</label>
                          <input type="number" step="0.1" name="calcio" value="0"
                          				class="form-control input-custom">
                        </div>
@@ -227,41 +225,41 @@
               	
               	<div>
               		<h5>Grupo de Alimentos</h5> <br>
-              		<strong>Carboidratos</strong> - As principais fontes de carboidrato s√£o: arroz, p√£o, 
+              		<strong>Carboidratos</strong> - As principais fontes de carboidrato s„o: arroz, p„o, 
               		batata, massa, mandioca, cereais, etc.
               	</div>
               	<hr>
               	<div>
-              		<strong>Hortali√ßas</strong> - √â o grupo das verduras e legumes, fontes de vitaminas, 
+              		<strong>HortaliÁas</strong> - … o grupo das verduras e legumes, fontes de vitaminas, 
               		minerais e fibras.
               	</div>
               	<hr>
               	<div>
-              		<strong>Frutas</strong> - Abacaxi, ma√ß√£, banana, kiwi, caju, acerola, etc.
+              		<strong>Frutas</strong> - Abacaxi, maÁ„, banana, kiwi, caju, acerola, etc.
               	</div>
               	<hr>
               	<div>
-              		<strong> Leite e Derivados</strong> - Os principais alimentos deste grupo s√£o: queijo, 
+              		<strong> Leite e Derivados</strong> - Os principais alimentos deste grupo s„o: queijo, 
               		leite, iogurtes, etc.
               	</div>
               	<hr>
               	<div>
-              		<strong>Carnes e ovos</strong> - Os principais alimentos deste grupo s√£o: peixe, 
+              		<strong>Carnes e ovos</strong> - Os principais alimentos deste grupo s„o: peixe, 
               		frango, carne, ovos, etc.
               	</div>
               	<hr>
               	<div>
-              		<strong>Leguminosas e oleaginosas</strong> - Comp√µem esse grupo: feij√£o, soja, lentilha, 
-              		gr√£o de bico, castanhas etc.
+              		<strong>Leguminosas e oleaginosas</strong> - Compıem esse grupo: feij„o, soja, lentilha, 
+              		gr„o de bico, castanhas etc.
               	</div>
               	<hr>
               	<div>
-              		<strong>√ìleos e Gorduras</strong> - S√£o alimentos desse grupo: azeite, manteiga, 
-              		√≥leo de soja, etc.
+              		<strong>”leos e Gorduras</strong> - S„o alimentos desse grupo: azeite, manteiga, 
+              		Ûleo de soja, etc.
               	</div>
               	<hr>
               	<div>
-              		<strong>A√ß√∫cares e Doces</strong> - Os alimentos que comp√µem esse grupo s√£o: a√ß√∫car, mel, 
+              		<strong>AÁ˙cares e Doces</strong> - Os alimentos que compıem esse grupo s„o: aÁ˙car, mel, 
               		chocolate, sorvete, bolo, etc.
               	</div>
                 

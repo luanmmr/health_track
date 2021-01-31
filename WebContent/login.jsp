@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
 	<title>Log In - Acesse sua conta</title>
-	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<meta http-equiv="X-UA-Compatible" content="IE-edge">
   <meta name="author" content="Luan Ribeiro">
@@ -52,7 +51,7 @@
 	              <form action="login" method="post">
 	                <div class="form-group">
 	                  <label for="email" class="sr-only">Email</label>
-	                  <input type="email" name="email" id="email" class="form-control" placeholder="EndereÃ§o de email" required>
+	                  <input type="email" name="email" id="email" class="form-control" placeholder="Endereço de email" required>
 	                </div>
 	                <div class="form-group mb-4">
 	                  <label for="password" class="sr-only">Password</label>
@@ -62,7 +61,7 @@
 	              </form>
 	              <br>
 	              <a href="#" class="small">Esqueceu a senha?</a>
-	              <p>NÃ£o tem uma conta? <a href="signup.jsp" >Cadastra-se aqui!</a></p>
+	              <p>Não tem uma conta? <a href="signup.jsp" >Cadastra-se aqui!</a></p>
 	            </div>
 	          </div>
 	        </div>

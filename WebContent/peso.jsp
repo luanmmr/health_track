@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  		   pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
-		<meta charset="utf-8">
   	<meta http-equiv="X-UA-Compatible" content="IE=edge">
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   	<meta name="description" content="">
@@ -81,7 +80,7 @@
             <div class="card shadow mb-4">
               <div class="card-header py-3 space-title-button">
                   <h6 class="m-0 font-weight-bold text-primary">
-                    HistÃ³rico de Peso
+                    Histórico de Peso
                   </h6>
                   
                   <a href="#" class="btn btn-primary btn-icon-split" data-toggle="modal" 
@@ -151,7 +150,7 @@
                </div>
                </c:if>
                <c:if test="${ empty listaPeso }">
-               	<p>Nenhuma alimentaÃ§Ã£o registrada.</p>
+               	<p>Nenhuma alimentação registrada.</p>
                </c:if>
                
               </div>
@@ -216,7 +215,7 @@
                        </div>
                          
                        <div class="form-group col-md-3">
-                        <label for="peso" class="label-custom">Peso</label>
+                        <label for="peso" class="label-custom">Peso (KG)</label>
                          <input type="number" name="peso" step="0.01" class="form-control input-custom" 
                          	      required>
                        </div>  

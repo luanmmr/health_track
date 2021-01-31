@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
   <head>
   <title>Sign Up - Crie sua conta</title>
-  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="IE-edge">
   <meta name="author" content="Luan Ribeiro">
@@ -58,7 +57,7 @@
 	                       </div>
 	                       
                       	<div class="col-md-6">
-                          <label for="meta-gasto-kcal" class="label-custom">Meta Gasto CalÃ³rico (dia)</label>
+                          <label for="meta-gasto-kcal" class="label-custom">Meta Gasto Calórico (dia)</label>
 	                         <input type="number" value="0" name="meta-gasto-kcal" 
 	                                class="form-control input-custom">
                          </div>
@@ -77,13 +76,13 @@
                       </div>     
 	                      
                       <div class="col-md-3">
-                        <label for="sistolica" class="label-custom">SistÃ³lica:</label>
+                        <label for="sistolica" class="label-custom">Sistólica:</label>
                          <input type="number" value="0" name="sistolica" 
                               class="form-control input-custom">
                        </div>
                          
                       <div class="col-md-3">
-                        <label for="diastolica" class="label-custom">DiastÃ³lica:</label>
+                        <label for="diastolica" class="label-custom">Diastólica:</label>
                          <input type="number" value="0" name="diastolica" 
                               class="form-control input-custom">
                        </div> 

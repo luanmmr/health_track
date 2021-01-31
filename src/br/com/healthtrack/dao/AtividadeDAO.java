@@ -1,6 +1,7 @@
 package br.com.healthtrack.dao;
 
 import java.util.Calendar;
+import java.util.Map;
 import java.util.List;
 
 import br.com.healthtrack.bean.Atividade;
@@ -14,5 +15,8 @@ public interface AtividadeDAO {
 	void excluir(int codigoAtividade);
 	Atividade buscar(int codigoAtividade, String atividade, Usuario usr);
 	void update(Atividade atividade) throws DBException;
+	int quantAtvMes(String dataMMyy, Usuario usuario);
+	Map<String, Integer> atvSegmento(String dataMMyy, Usuario usuario);
+	double caloriasPerdidasDia(Usuario usr, Calendar data);
 	
 }

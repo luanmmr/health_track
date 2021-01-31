@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -49,7 +48,8 @@
                        <span class="text">${ msgErro }</span>
                      </a>
                    </c:if>
-                   
+                  
+                  <fieldset>
                   <form action="user" method="post" style="margin-top: 20px;">
                   <input type="hidden" name="action" value="atualizar">
                 
@@ -89,7 +89,7 @@
                                                        value="${ user.dataNascimento.time }" />' required>
                        </div>
                        <div class="form-group col-md-6">
-                        <label for="meta-gasto-kcal" class="label-custom">Meta Gasto CalÃ³rico (dia)</label>
+                        <label for="meta-gasto-kcal" class="label-custom">Meta Gasto Calórico (dia)</label>
                          <input type="number" name="meta-gasto-kcal" class="form-control input-custom" 
                                 value="${ user.metaGastoCalorico }" required>
                        </div>
@@ -103,6 +103,7 @@
                      </div>
 
                 </form>
+                </fieldset>
               </div>
             </div>
           </div>

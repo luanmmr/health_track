@@ -31,7 +31,7 @@ import br.com.healthtrack.exception.DBException;
  * Servlet implementation class AtividadeServlet
  */
 @WebServlet("/atividades")
-public class AtividadeServlet extends HttpServlet {
+public class AtividadesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private AtividadeDAO dao;
@@ -39,7 +39,7 @@ public class AtividadeServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AtividadeServlet() {
+    public AtividadesServlet() {
         super();
         dao = DAOFactory.getAtividadeDAO();
         // TODO Auto-generated constructor stub
@@ -111,7 +111,6 @@ public class AtividadeServlet extends HttpServlet {
       
 	  List<Atividade> lista = dao.listaAtividadesDia(usuario, data);
 	  double gastoCaloricoTotal = 0;
-	  String porcentagemMeta = "";
 	  
 	  // Data das atividades
 	  SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
@@ -123,11 +122,7 @@ public class AtividadeServlet extends HttpServlet {
     	  gastoCaloricoTotal += atv.getKcalPerdida();
       }
       request.setAttribute("gastoCaloricoTotal", String.format("%.2f", gastoCaloricoTotal));
-      
-      // Meta Gasto Calorico
-      porcentagemMeta = String.format("%.0f", gastoCaloricoTotal / usuario.getMetaGastoCalorico() * 100);
-      request.setAttribute("porcentagemMeta", porcentagemMeta);
-      
+
 	  request.getRequestDispatcher("atividades.jsp").forward(request, response);
 
 	}
@@ -153,25 +148,25 @@ public class AtividadeServlet extends HttpServlet {
 		  switch (atividade) {
 		  case "caminhada":
 			  distancia = Double.parseDouble(request.getParameter("distancia"));
-			  dao.cadastrar(new Caminhada(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+			  dao.cadastrar(new Caminhada(0, dataInicio, dataFim, usuario, 
 					  					  distancia, new RitmoAtividade(idRitmo)));
 			  break;
 		  
 		  case "corrida":
 			  distancia = Double.parseDouble(request.getParameter("distancia"));
-			  dao.cadastrar(new Corrida(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+			  dao.cadastrar(new Corrida(0, dataInicio, dataFim, usuario, 
 					  					distancia, new RitmoAtividade(idRitmo)));
 			  break;
 		  
 		  case "ciclismo":
 			  distancia = Double.parseDouble(request.getParameter("distancia"));
-			  dao.cadastrar(new Ciclismo(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+			  dao.cadastrar(new Ciclismo(0, dataInicio, dataFim, usuario, 
 					  					 distancia, new RitmoAtividade(idRitmo)));
 			  break;
 		  
 		  case "natacao":
 			  idEstiloNatacao = Integer.parseInt(request.getParameter("estilo-natacao"));
-			  dao.cadastrar(new Natacao(0, dataInicio, dataFim, new Usuario(usuario.getCodigo()), 
+			  dao.cadastrar(new Natacao(0, dataInicio, dataFim, usuario, 
 					  					new EstiloNatacao(idEstiloNatacao), new RitmoAtividade(idRitmo)));
 			  break;
 		  }
@@ -259,7 +254,7 @@ public class AtividadeServlet extends HttpServlet {
 		    break;
 		  
 		  case "natacao" :
-			    dao.update(new Natacao(idAtv, dataInicio, dataFim, null,
+			    dao.update(new Natacao(idAtv, dataInicio, dataFim,
 			    		               new EstiloNatacao(Integer.parseInt(request.getParameter("estilo"))), 
 			    		               new RitmoAtividade(idRitmo)));
 			    break;

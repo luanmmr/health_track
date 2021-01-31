@@ -21,7 +21,7 @@ import br.com.healthtrack.exception.DBException;
  * Servlet implementation class UsuarioServlet
  */
 @WebServlet("/user")
-public class UsuarioServlet extends HttpServlet {
+public class UsuariosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private UsuarioDAO dao;
@@ -29,7 +29,7 @@ public class UsuarioServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UsuarioServlet() {
+    public UsuariosServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

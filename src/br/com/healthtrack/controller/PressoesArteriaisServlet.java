@@ -26,7 +26,7 @@ import br.com.healthtrack.exception.DBException;
  * Servlet implementation class PesoServlet
  */
 @WebServlet("/pressaoArterial")
-public class PressaoArterialServlet extends HttpServlet {
+public class PressoesArteriaisServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private PressaoArterialDAO pressaoArterialDAO;
@@ -35,7 +35,7 @@ public class PressaoArterialServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PressaoArterialServlet() {
+    public PressoesArteriaisServlet() {
         super();
         pressaoArterialDAO = DAOFactory.getPressaoArterialDAO();
         usuarioDAO = DAOFactory.getUsuarioDAO();

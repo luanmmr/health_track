@@ -31,6 +31,13 @@ public class Natacao extends Atividade {
 		calcularKcalPerdida();
 	}
 	
+	public Natacao(int codigo, Calendar dataInicio, Calendar dataFim,
+			   EstiloNatacao estilo, RitmoAtividade ritmo) {
+		super(codigo, dataInicio, dataFim, ritmo);
+		setEstilo(estilo);
+	
+	}
+	
 	/**
 	 * Construtor com bloco de instruções vazio e sem parâmetros
 	 */

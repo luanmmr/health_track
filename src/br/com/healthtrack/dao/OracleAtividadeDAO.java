@@ -5,9 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import org.apache.tomcat.dbcp.dbcp2.SQLExceptionList;
 import com.sun.xml.internal.ws.util.StringUtils;
@@ -24,17 +26,20 @@ import br.com.healthtrack.bean.RitmoAtividade;
 import br.com.healthtrack.bean.Usuario;
 import br.com.healthtrack.exception.DBException;
 import br.com.healthtrack.singleton.ConnectionManager;
+import java.util.Map;
 
 public class OracleAtividadeDAO implements AtividadeDAO {
 	
 	private Connection conexao;
-	
-	
+	private String[] atvArray = { "caminhada", "corrida", "ciclismo", "natacao" };
+	PreparedStatement pstmt;
+	ResultSet rs;
+	String sql;
+
 	@Override
 	public void cadastrar(Atividade atividade) throws DBException {
-		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO t_htk_atividade "
-				   + "VALUES (SQ_HTK_ATIVIDADE.nextval, ?, ?, ?, ?, ?)";
+		sql = "INSERT INTO t_htk_atividade "
+			+ "VALUES (SQ_HTK_ATIVIDADE.nextval, ?, ?, ?, ?, ?)";
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		
@@ -118,9 +123,8 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	
 	@Override
 	public void update(Atividade atividade) throws DBException {
-	  PreparedStatement pstmt = null;
-	  String sql = "UPDATE t_htk_atividade SET cd_ritmo = ?, dt_inicio = ?, dt_fim = ?, vl_kcal = ?"
-	  		     + "WHERE cd_atividade = ?";
+	  sql = "UPDATE t_htk_atividade SET cd_ritmo = ?, dt_inicio = ?, dt_fim = ?, vl_kcal = ?"
+	      + "WHERE cd_atividade = ?";
 	  
 	  conexao = ConnectionManager.getInstance().getConnection();
 	  
@@ -204,10 +208,6 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 		String dia = f.format(data.getTime());
 		data.add(Calendar.DATE, 1);
 		String diaLimite = f.format(data.getTime());
-		String sql = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String[] atvArray = { "caminhada", "corrida", "ciclismo", "natacao" };
 		
 		conexao = ConnectionManager.getInstance().getConnection();
 		
@@ -268,9 +268,45 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	}
 	
 	@Override
+	public double caloriasPerdidasDia(Usuario usr, Calendar data) {
+		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+		double caloriasPerdidas = 0;
+		sql = "SELECT * FROM t_htk_atividade "
+			+ "WHERE TO_CHAR(dt_inicio, 'DD/MM/YYYY') = ? AND cd_usuario = ?";
+		
+		conexao = ConnectionManager.getInstance().getConnection();
+		
+		try {
+		  pstmt = conexao.prepareStatement(sql);
+		  pstmt.setString(1, f.format(data.getTime()));
+		  pstmt.setInt(2, usr.getCodigo());
+		  rs = pstmt.executeQuery();
+		  
+		  while (rs.next()) {
+			  caloriasPerdidas += rs.getDouble("vl_kcal");
+		  }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+			  pstmt.close();
+			  rs.close();
+			  conexao.close();
+			  
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return caloriasPerdidas;
+	}
+	
+	@Override
 	public void excluir(int codigoAtividade) {
-	  PreparedStatement pstmt = null;
-	  String sql = "DELETE FROM t_htk_atividade WHERE cd_atividade = ?";
+	  sql = "DELETE FROM t_htk_atividade WHERE cd_atividade = ?";
 	  
 	  conexao = ConnectionManager.getInstance().getConnection();
 	  
@@ -296,9 +332,6 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	@Override
 	public Atividade buscar(int codigoAtividade, String atividade, Usuario usr) {
 	  Atividade atv = null;
-	  PreparedStatement pstmt = null;
-	  ResultSet rs = null;
-	  String sql = null;
 	  
 	  switch(atividade) {
 	  
@@ -322,8 +355,7 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	    break;
 	  
 	  }
-	  
-	  
+
 	  conexao = ConnectionManager.getInstance().getConnection();
 	  
 	  try {
@@ -337,9 +369,113 @@ public class OracleAtividadeDAO implements AtividadeDAO {
 	    
 	  } catch (SQLException e) {
 		  e.printStackTrace();
+		  
+	  } finally {
+		  try {
+		    pstmt.close();
+		    conexao.close();
+		    rs.close();
+			  
+		  } catch (SQLException e) {
+			  e.printStackTrace();
+		  }
 	  }
+	  
 	  return atv;
-
+	}
+	
+	@Override
+	public int quantAtvMes(String dataMMyy, Usuario usuario) {
+		int quantidade = 0;
+		sql = "SELECT COUNT(*) FROM t_htk_atividade "
+		    + "WHERE TO_CHAR(dt_inicio, 'MM/YY') = ? AND cd_usuario = ?";
+		
+		conexao = ConnectionManager.getInstance().getConnection();
+		
+		try {
+		  pstmt = conexao.prepareStatement(sql);
+		  pstmt.setString(1, dataMMyy);
+		  pstmt.setInt(2, usuario.getCodigo());
+		  rs = pstmt.executeQuery();
+		  
+		  if (rs.next()) {
+			  quantidade = rs.getInt("COUNT(*)");
+		  }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+			  pstmt.close();
+			  rs.close();
+			  conexao.close();
+				
+			} catch (SQLException e ) {
+				e.printStackTrace();
+			}
+		}
+		
+	  return quantidade;
+	}
+	
+	@Override
+	public Map<String, Integer> atvSegmento(String dataMMyy, Usuario usuario) {
+	  Map<String, Integer> atvsSegmentMes = new HashMap<String, Integer>();
+	  
+	  conexao = ConnectionManager.getInstance().getConnection();
+		
+	  try {
+	    for ( String atv : atvArray ) {
+	      sql = "SELECT COUNT(*) FROM t_htk_" + atv + " "
+			  + "INNER JOIN t_htk_atividade ON (t_htk_atividade.cd_atividade = t_htk_" + atv + ".cd_atividade) "
+			  + "WHERE TO_CHAR(t_htk_atividade.dt_inicio, 'MM/YY') = ? AND cd_usuario = ?";
+		  
+	      pstmt = conexao.prepareStatement(sql);
+		  pstmt.setString(1, dataMMyy);
+		  pstmt.setInt(2, usuario.getCodigo());
+		  rs = pstmt.executeQuery();
+			  
+		  if (rs.next() &&  rs.getInt("COUNT(*)") != 0) {
+			  switch(atv) {
+			  case "caminhada" :
+			    atvsSegmentMes.put("Caminhada", rs.getInt("COUNT(*)"));
+			    break;
+			  
+			  case "corrida" :
+				atvsSegmentMes.put("Corrida", rs.getInt("COUNT(*)"));
+				break;
+			  
+			  case "ciclismo" :
+				atvsSegmentMes.put("Ciclismo", rs.getInt("COUNT(*)"));
+				break;
+			  
+			  case "natacao" :
+				atvsSegmentMes.put("Natação", rs.getInt("COUNT(*)"));
+				break;
+			  
+			  default :
+				atvsSegmentMes.put(atv, rs.getInt("COUNT(*)"));
+			  }
+		   }
+			  
+		 }
+				  
+	  } catch (SQLException e) {
+			e.printStackTrace();
+			
+	  } finally {
+	      try {
+		    pstmt.close();
+	        rs.close();
+	        conexao.close();
+	      
+		  } catch (SQLException e) {
+			e.printStackTrace();
+		  }
+		}
+		
+		return atvsSegmentMes;
 	}
 	
 	private Atividade getAtividade(ResultSet rs, String atv, Usuario usr) {

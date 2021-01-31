@@ -1,17 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  		   pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
-		<meta charset="utf-8">
   	<meta http-equiv="X-UA-Compatible" content="IE=edge">
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   	<meta name="description" content="">
   	<meta name="author" content="Luan Ribeiro">
-  	<title>Alimenta√ß√£o</title>
+  	<title>AlimentaÁ„o</title>
   	<%@ include file="includes/dashboard-style.jsp" %>
 	</head>
 	
@@ -23,8 +22,8 @@
 
         <!-- Page Heading -->
 
-            <h1 class="h3 mb-2 text-gray-800">Alimenta√ß√£o</h1>
-            <p class="mb-4">Registros de sua alimenta√ß√£o no dia.
+            <h1 class="h3 mb-2 text-gray-800">AlimentaÁ„o</h1>
+            <p class="mb-4">Registros de sua alimentaÁ„o no dia.
             </p>
 
         
@@ -38,11 +37,11 @@
 	                       <div class="row no-gutters align-items-center">
 	                           <div class="col mr-2">
 	                               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-	                                   Gasto Cal√≥rio</div>
+	                                   Total de Calorias</div>
 	                               <div class="h5 mb-0 font-weight-bold text-gray-800">${ totalCaloriasAli } kcal</div>
 	                           </div>
 	                           <div class="col-auto">
-	                               <i class="fas fa-running fa-2x text-gray-300"></i>
+	                               <i class="fas fa-apple-alt fa-2x text-gray-300"></i>
 	                           </div>
 	                       </div>
 	                   </div>
@@ -120,7 +119,7 @@
                            <tr>
                                <th>Alimento</th>
                                <th></th>
-                               <th>Per√≠odo</th>
+                               <th>PerÌodo</th>
                                <th>Data</th>
                                <th>Quantidade</th>
                                <th>Total Kcal</th>
@@ -166,7 +165,7 @@
                </div>
                </c:if>
                <c:if test="${ empty listaAlimentacao }">
-               	<p>Nenhuma alimenta√ß√£o registrada nesse dia.</p>
+               	<p>Nenhuma alimentaÁ„o registrada nesse dia.</p>
                </c:if>
                
               </div>
@@ -206,7 +205,7 @@
 		    <div class="modal-dialog" role="document">
 		        <div class="modal-content" style="border-radius: 8px;">
 		            <div class="modal-header">
-		                <h5 class="modal-title" id="exampleModalLabel">Registrar Alimenta√ß√£o</h5>
+		                <h5 class="modal-title" id="exampleModalLabel">Registrar AlimentaÁ„o</h5>
 		                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
 		                    <span aria-hidden="true">X</span>
 		                </button>
@@ -218,7 +217,7 @@
                     
                     <div class="form-row">
 	                     <div class="mb-3 col-md-12">
-	                        Se n√£o encontrar o alimento, <a href="alimentos?action=cadastrar">clique aqui</a> para adicionar.
+	                        Se n„o encontrar o alimento, <a href="alimentos?action=cadastrar">clique aqui</a> para adicionar.
 	                     </div>
                     </div>
                     
@@ -242,7 +241,7 @@
                      <div class="form-row">
 	                     <div class="input-group mb-3 col-md-8">
 	                        <div class="input-group-prepend">
-	                            <label class="input-group-text">Per√≠odo</label>
+	                            <label class="input-group-text">PerÌodo</label>
 	                        </div>
 	                        <select name="periodo" class="custom-select" required>
 	                            <option value="" selected>Selecione...</option>

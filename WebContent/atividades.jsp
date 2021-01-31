@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-  pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
@@ -7,7 +7,6 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -25,8 +24,8 @@
         <!-- Page Heading -->
 
             <h1 class="h3 mb-2 text-gray-800">Atividades</h1>
-            <p class="mb-4">Aqui te atualizaremos como est√£o suas atividades no dia. Portanto, os dados est√£o embasados em sua
-              meta de gasto cal√≥rico, na quantidade de calorias perdidas at√© o momento e nas atividades realizadas no dia.
+            <p class="mb-4">Aqui te atualizaremos como est„o suas atividades no dia. Portanto, os dados est„o embasados em sua
+              meta de gasto calÛrico, na quantidade de calorias perdidas atÈ o momento e nas atividades realizadas no dia.
             </p>
 
         
@@ -40,7 +39,7 @@
 	                       <div class="row no-gutters align-items-center">
 	                           <div class="col mr-2">
 	                               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-	                                   Gasto Cal√≥rio</div>
+	                                   Gasto CalÛrio</div>
 	                               <div class="h5 mb-0 font-weight-bold text-gray-800">${ gastoCaloricoTotal } kcal</div>
 	                           </div>
 	                           <div class="col-auto">
@@ -50,34 +49,6 @@
 	                   </div>
 	               </div>
 	             </div>
-        
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Meta de Gasto Cal√≥rico
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${ porcentagemMeta }%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress">
-                                          <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
-                                               role="progressbar" aria-valuenow="${ porcentagemMeta }" aria-valuemin="0" aria-valuemax="100" 
-                                               style="width: ${ porcentagemMeta }%">
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                        </div>
-                    </div>
-                </div>
-            </div>
             
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -85,7 +56,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA DE IN√çCIO</div>
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">DATA DE INÕCIO</div>
                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
                                   <form action="atividades" method="get" id="form-data">
                                     <input type="hidden" name="action" value="alterar-data">
@@ -149,9 +120,9 @@
                            <tr>
                                <th>Atividade</th>
                                <th>Intensidade</th>
-                               <th>In√≠cio</th>
+                               <th>InÌcio</th>
                                <th>Fim</th>
-                               <th>Gasto Cal√≥rico</th>
+                               <th>Gasto CalÛrico</th>
                                <th></th>
                                <th></th>
               
@@ -253,7 +224,7 @@
 	                            <option value="caminhada">Caminhada</option>
 	                            <option value="corrida">Corrida</option>
 	                            <option value="ciclismo">Ciclismo</option>
-	                            <option value="natacao">Nata√ß√£o</option>
+	                            <option value="natacao">NataÁ„o</option>
 	                        </select>
 	                     </div>
                       
@@ -262,8 +233,7 @@
 	                             <label class="input-group-text" for="ritmoAtividade">Ritmo</label>
 	                         </div>
 	                         <select name="ritmo" class="custom-select" id="ritmoAtividade" 
-	                         				 data-toggle="tooltip" data-placement="top" data-html="true"
-	                         				 title="texto" required>
+	                         				 data-toggle="tooltip" data-placement="top" data-html="true" required>
 	                             <option value="" selected>Selecione...</option>
 	                             <option value="1">Leve</option>
 	                             <option value="2">Moderado</option>
@@ -274,7 +244,7 @@
                    
                     <div class="form-row">       
                       <div class="form-group col-md-6">
-                        <label for="dt-inicio" class="label-custom">In√≠cio:</label>
+                        <label for="dt-inicio" class="label-custom">InÌcio:</label>
                          <input type="datetime-local" name="dt-inicio" step="1" class="form-control input-custom" 
                          	      value="${ dtExibidaAtv }T00:00:00" required>
                        </div>
@@ -304,7 +274,7 @@
 	                   </div>
                       
                       <div class="form-group col-md-6" id="dtc" style="display:none">
-                        <label for="distancia" class="label-custom">Dist√¢ncia em KM:</label>
+                        <label for="distancia" class="label-custom">Dist‚ncia em KM:</label>
                         <input type="number" step="0.01" id="distancia" name="distancia" class="form-control input-custom" 
                                placeholder="Ex: 12,5">
                       </div>                             

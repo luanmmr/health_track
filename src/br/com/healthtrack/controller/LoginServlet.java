@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 			usuario.setSenha(senha);
 			session.setAttribute("pwd", senha);
 			session.setAttribute("user", usuario);
-	        response.sendRedirect("dashboard.jsp");
+	        response.sendRedirect("dashboard");
 				
 		} else {
 			request.setAttribute("msgErro", "Usuário e/ou senha incorreto");

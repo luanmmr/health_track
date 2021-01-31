@@ -90,6 +90,7 @@ public class Caminhada extends Atividade implements DistanciaPercorrida {
 		setKcalPerdida(kcalPerdida(8, getUsuario().getPeso()));
 		
 	  }
+	  
 	}
 	
 	/**

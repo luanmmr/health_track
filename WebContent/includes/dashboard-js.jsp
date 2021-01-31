@@ -1,6 +1,10 @@
     <!-- Page level plugins -->
     <script src="resources/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="resources/js/custom/demo/chart-area-demo.js"></script>
-    <script src="resources/js/custom/demo/chart-pie-demo.js"></script>
+    
+		<%@ include file="charts/atividades-mes.jsp" %>
+    
+    <%@ include file="charts/atividades-segmento.jsp" %>
+    
+    <%@ include file="charts/ganho-perda-calorias-semanal.jsp" %>
+    
+    <%@ include file="charts/alimentos-segmento.jsp" %>
