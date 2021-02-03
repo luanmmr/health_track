@@ -1,4 +1,4 @@
-package br.com.healthtrack.dao;
+package br.com.healthtrack.dao.impl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.com.healthtrack.bean.Peso;
 import br.com.healthtrack.bean.Usuario;
+import br.com.healthtrack.dao.PesoDAO;
 import br.com.healthtrack.singleton.ConnectionManager;
 
 

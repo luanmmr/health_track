@@ -24,7 +24,7 @@ import br.com.healthtrack.bean.RitmoAtividade;
 import br.com.healthtrack.bean.Usuario;
 import br.com.healthtrack.dao.AtividadeDAO;
 import br.com.healthtrack.dao.DAOFactory;
-import br.com.healthtrack.dao.OracleUsuarioDAO;
+import br.com.healthtrack.dao.impl.OracleUsuarioDAO;
 import br.com.healthtrack.exception.DBException;
 
 /**

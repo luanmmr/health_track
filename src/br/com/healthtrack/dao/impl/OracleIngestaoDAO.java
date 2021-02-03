@@ -1,4 +1,4 @@
-package br.com.healthtrack.dao;
+package br.com.healthtrack.dao.impl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -18,6 +18,7 @@ import br.com.healthtrack.bean.Ingestao;
 import br.com.healthtrack.bean.Medida;
 import br.com.healthtrack.bean.PeriodoRefeicao;
 import br.com.healthtrack.bean.Usuario;
+import br.com.healthtrack.dao.IngestaoDAO;
 import br.com.healthtrack.exception.DBException;
 import br.com.healthtrack.singleton.ConnectionManager;
 
@@ -245,7 +246,6 @@ public class OracleIngestaoDAO implements IngestaoDAO {
 		  
 		  while (rs.next()) {
 			  totalCalorias += rs.getDouble("vl_kcal") * rs.getInt("vl_quantidade");
-			  System.out.println(totalCalorias);
 		  }
 			
 		} catch (SQLException e) {

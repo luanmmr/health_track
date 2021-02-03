@@ -1,6 +1,7 @@
-package br.com.healthtrack.dao;
+package br.com.healthtrack.dao.impl;
 
 import br.com.healthtrack.bean.Medida;
+import br.com.healthtrack.dao.MedidaDAO;
 import br.com.healthtrack.singleton.ConnectionManager;
 import java.util.List;
 import java.util.ArrayList;

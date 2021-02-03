@@ -1,4 +1,4 @@
-package br.com.healthtrack.dao;
+package br.com.healthtrack.dao.impl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.com.healthtrack.bean.PeriodoRefeicao;
+import br.com.healthtrack.dao.PeriodoRefeicaoDAO;
 import br.com.healthtrack.singleton.ConnectionManager;
 
 public class OraclePeriodoRefeicaoDAO implements PeriodoRefeicaoDAO {

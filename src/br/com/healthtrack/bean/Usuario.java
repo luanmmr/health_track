@@ -2,8 +2,9 @@ package br.com.healthtrack.bean;
 
 import java.util.Calendar;
 import java.util.Dictionary;
-import br.com.healthtrack.dao.OraclePesoDAO;
-import br.com.healthtrack.dao.OraclePressaoArterialDAO;
+
+import br.com.healthtrack.dao.impl.OraclePesoDAO;
+import br.com.healthtrack.dao.impl.OraclePressaoArterialDAO;
 import br.com.healthtrack.util.CriptografiaSenha;
 
 /**
